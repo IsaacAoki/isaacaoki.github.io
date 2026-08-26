@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- TODO: update title/description once your positioning is final -->
+<title>Isaac Aoki — Medical Writer</title>
+<meta name="description" content="Medical writer. Source evidence, scientific record, patient understanding — the whole journey from data to a person.">
+<meta property="og:title" content="Isaac Aoki — Medical Writer">
+<meta property="og:description" content="Source evidence, scientific record, patient understanding.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============================================================
+     THE HELIX. Decorative backdrop, built by script.js.
+     Fixed to the viewport, turning permanently, never redrawn
+     per frame. Its state is driven by [data-zone] on <html>.
+     ============================================================ -->
+<div class="helix-layer" aria-hidden="true">
+  <svg class="helix" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- parallax layer: smaller, slower, dimmer. Motion parallax is what
+         turns two moving lines into a solid with space behind it. -->
+    <g class="spin spin-far">
+      <g class="phase-far">
+        <g class="l-far-a"></g>
+        <g class="l-far-b"></g>
+      </g>
+    </g>
+
+    <g class="spin">
+      <g class="phase">
+        <g class="l-strand-b"></g>
+        <g class="l-rungs"></g>
+        <g class="l-bases"></g>
+        <g class="l-strand-a"></g>
+      </g>
+    </g>
+
+    <g class="l-reader">
+      <ellipse class="reader-body"></ellipse>
+      <ellipse class="reader-cap"></ellipse>
+    </g>
+
+    <g class="l-chain">
+      <g class="chain-spin">
+        <path class="chain-line"></path>
+        <g class="chain-beads"></g>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href="#top">Isaac&nbsp;Aoki</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle-bar"></span>
+      <span class="sr-only">Menu</span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <a href="#dna">Work</a>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ==================== HERO · zone DNA ==================== -->
+  <section id="top" class="hero" data-zone="dna">
+    <div class="wrap">
+      <p class="eyebrow">Medical Writer</p>
+      <!-- TODO: rewrite this headline in your own voice. Keep it one sentence. -->
+      <h1>Evidence has to survive the whole journey from data to a person.</h1>
+      <p class="lede">
+        <!-- TODO: 2–3 sentences in your own words. -->
+        The helix behind this page never stops turning. Keep scrolling and it comes apart —
+        the strands separate, one is copied, the copy is read out as something a patient can
+        actually use. That is the shape of the work.
+      </p>
+      <p class="scroll-cue mono">Scroll · the helix unwinds</p>
+    </div>
+  </section>
+
+  <!-- ==================== ZONE 01 · DNA ==================== -->
+  <section id="dna" class="section" data-zone="dna">
+    <div class="wrap">
+      <div class="zone-head">
+        <p class="zone-tag">Zone 01 · DNA</p>
+        <h2>The template</h2>
+        <p class="zone-intro">
+          Before anyone reports a result, someone writes down exactly what the study will do.
+          These are the master copy — everything downstream is judged against them, so ambiguity
+          here becomes error everywhere else.
+        </p>
+      </div>
+
+      <ul class="works">
+        <!-- TODO: duplicate an <li> per piece. The base pair animates itself. -->
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Protocol</span><span class="work-year">[2024]</span></p>
+            <h3><a href="#contact">[Phase II protocol — indication]</a></h3>
+            <p class="work-desc">[What the study was, what you drafted, and the constraint that made it hard.]</p>
+            <p class="work-detail"><strong>Standard:</strong> [e.g. ICH E6(R2)] · <strong>Role:</strong> [e.g. Lead writer]</p>
+          </div>
+        </li>
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Consent form</span><span class="work-year">[2023]</span></p>
+            <h3><a href="#contact">[Informed consent — study name]</a></h3>
+            <p class="work-desc">[Consent is where the first and last stages touch — a source document a patient must actually understand. Note the reading level you hit.]</p>
+            <p class="work-detail"><strong>Reading level:</strong> [e.g. Grade 8] · <strong>IRB:</strong> [Approved first pass]</p>
+          </div>
+        </li>
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Analysis plan</span><span class="work-year">[2023]</span></p>
+            <h3><a href="#contact">[Statistical analysis plan]</a></h3>
+            <p class="work-desc">[Who you wrote it with and what it had to pin down before unblinding.]</p>
+            <p class="work-detail"><strong>Co-authored with:</strong> [e.g. Lead biostatistician]</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== INTERSTITIAL · zone TRANSCRIPTION ============== -->
+  <section class="interstitial" data-zone="transcription">
+    <div class="wrap">
+      <p class="zone-tag">Transcription</p>
+      <p class="interstitial-line">
+        The strands part. One backbone leaves the drawing; the other is copied out on its own.
+        Copying, not interpreting — the writer adds clarity without adding claims.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== ZONE 02 · RNA ==================== -->
+  <section id="rna" class="section" data-zone="rna">
+    <div class="wrap">
+      <div class="zone-head">
+        <p class="zone-tag">Zone 02 · RNA</p>
+        <h2>The transcript</h2>
+        <p class="zone-intro">
+          The data goes into the scientific record for readers who already speak the language.
+          Bases unpaired and pointing outward — readable, but only by machinery built to read them.
+        </p>
+      </div>
+
+      <ul class="works">
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Manuscript</span><span class="work-year">[2024]</span></p>
+            <h3><a href="#contact">[Title of the publication]</a></h3>
+            <p class="work-desc">[Journal, your role, what the paper reported. Link the DOI if it's public.]</p>
+            <p class="work-detail"><strong>Journal:</strong> [Name] · <strong>Role:</strong> [e.g. Medical writer, per GPP 2022]</p>
+          </div>
+        </li>
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Clinical study report</span><span class="work-year">[2023]</span></p>
+            <h3><a href="#contact">[Document type and indication]</a></h3>
+            <p class="work-desc">[Scale of it and the standard it met. Redact the sponsor if you need to.]</p>
+            <p class="work-detail"><strong>Standard:</strong> [e.g. ICH E3] · <strong>Length:</strong> [e.g. 240 pages]</p>
+          </div>
+        </li>
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Congress abstract</span><span class="work-year">[2023]</span></p>
+            <h3><a href="#contact">[Abstract title]</a></h3>
+            <p class="work-desc">[Congress, and the outcome — accepted, oral presentation, award.]</p>
+            <p class="work-detail"><strong>Congress:</strong> [Name] · <strong>Outcome:</strong> [e.g. Oral presentation]</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================== ZONE 03 · TRANSLATION ==================== -->
+  <section id="translation" class="section translation" data-zone="translation">
+    <div class="wrap">
+      <div class="zone-head">
+        <p class="zone-tag">Zone 03 · Translation</p>
+        <h2>Read out, in another language</h2>
+        <p class="zone-intro">
+          The one step that changes the language entirely and must change nothing about the
+          meaning. Everything on this page is still turning — the reader is the only thing
+          held still.
+        </p>
+      </div>
+
+      <div class="rewrite">
+        <div class="rewrite-col">
+          <p class="rewrite-label mono">Transcript</p>
+          <p class="rewrite-text before">
+            <!-- TODO: paste the dense original — protocol sentence, label copy, abstract
+                 extract. Leave the jargon in. -->
+            [Paste the dense original here. Leave the jargon in — the contrast is the point.]
+          </p>
+        </div>
+        <div class="rewrite-arrow mono" aria-hidden="true">→</div>
+        <div class="rewrite-col">
+          <p class="rewrite-label mono">Translated</p>
+          <p class="rewrite-text after">
+            <!-- TODO: paste your rewrite. This is the most persuasive thing on the site —
+                 make it a real one of yours. -->
+            [Paste your rewrite. Shorter sentences, plain words, same meaning — nothing softened
+            or lost.]
+          </p>
+        </div>
+      </div>
+      <p class="rewrite-note">
+        <!-- TODO: replace with the real measure, or delete this line -->
+        [Reading grade [X] → [Y]. Meaning unchanged, checked against the source by [whom].]
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== ZONE 04 · PROTEIN ==================== -->
+  <section id="protein" class="section" data-zone="protein">
+    <div class="wrap">
+      <div class="zone-head">
+        <p class="zone-tag">Zone 04 · Protein</p>
+        <h2>The functional product</h2>
+        <p class="zone-intro">
+          No helix left — a folded chain, doing work. This is where evidence stops being a
+          document and starts mattering in someone's life, and where a mistranslation has a
+          cost a patient pays.
+        </p>
+      </div>
+
+      <ul class="works">
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Patient education</span><span class="work-year">[2024]</span></p>
+            <h3><a href="#contact">[Title of the piece]</a></h3>
+            <p class="work-desc">[Who it was for, what problem it solved, and the outcome — reading level, comprehension score, adoption.]</p>
+            <p class="work-detail"><strong>Audience:</strong> [e.g. Newly diagnosed adults] · <strong>Reading level:</strong> [e.g. Grade 7]</p>
+          </div>
+        </li>
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Lay summary</span><span class="work-year">[2023]</span></p>
+            <h3><a href="#contact">[Plain-language summary of trial results]</a></h3>
+            <p class="work-desc">[EU CTR lay summaries are the clearest example of translation in this field — say what you did and for whom.]</p>
+            <p class="work-detail"><strong>Framework:</strong> [e.g. EU CTR Annex V] · <strong>Languages:</strong> [e.g. Source EN]</p>
+          </div>
+        </li>
+        <li class="work">
+          <span class="pair" aria-hidden="true"></span>
+          <div class="work-body">
+            <p class="work-meta"><span class="work-type">Health journalism</span><span class="work-year">[2023]</span></p>
+            <h3><a href="#contact">[Headline of the article]</a></h3>
+            <p class="work-desc">[Publication, the story, and why it mattered.]</p>
+            <p class="work-detail"><strong>Published in:</strong> [Outlet]</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT ==================== -->
+  <section id="about" class="section section-solid" data-zone="protein">
+    <div class="wrap grid-split">
+      <div class="col-head"><h2>About</h2></div>
+      <div class="prose">
+        <!-- TODO: replace the whole bio. Three short paragraphs, first person. -->
+        <p>[Opening paragraph — your background and how you came to medical writing. A sentence
+          or two on your scientific training, then the pivot to writing.]</p>
+        <p>[Second paragraph — the work you do now. Name your therapeutic areas and your
+          strongest document types. Be specific: "cardiometabolic and rare disease" beats "a
+          range of therapeutic areas."]</p>
+        <p>[Third paragraph — what you care about. Say why readability matters to you and what
+          you refuse to compromise on.]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== EXPERIENCE ==================== -->
+  <section id="experience" class="section section-solid" data-zone="protein">
+    <div class="wrap grid-split">
+      <div class="col-head">
+        <h2>Experience</h2>
+        <!-- TODO: add resume.pdf to this folder, or delete this link -->
+        <p class="col-sub"><a href="resume.pdf">Download CV (PDF)</a></p>
+      </div>
+      <div>
+        <ol class="timeline">
+          <!-- TODO: one <li> per role, most recent first -->
+          <li>
+            <p class="role-when mono">[2022 – present]</p>
+            <h3>[Job title]</h3>
+            <p class="role-org">[Organisation] · [Location or Remote]</p>
+            <p class="role-note">[One or two lines on scope and a concrete result. Numbers help.]</p>
+          </li>
+          <li>
+            <p class="role-when mono">[2019 – 2022]</p>
+            <h3>[Job title]</h3>
+            <p class="role-org">[Organisation] · [Location]</p>
+            <p class="role-note">[What you owned and what changed because of it.]</p>
+          </li>
+          <li>
+            <p class="role-when mono">[2017 – 2019]</p>
+            <h3>[Earlier role or degree]</h3>
+            <p class="role-org">[Organisation or institution]</p>
+            <p class="role-note">[Short line. Earlier entries can be brief.]</p>
+          </li>
+        </ol>
+
+        <div class="skills">
+          <h3 class="skills-title">Tools &amp; standards</h3>
+          <ul class="tags">
+            <!-- TODO: keep only what's true -->
+            <li>ICH E3 / E6</li>
+            <li>GPP 2022</li>
+            <li>ICMJE</li>
+            <li>AMA style</li>
+            <li>EU CTR lay summaries</li>
+            <li>Plain-language guidelines</li>
+            <li>EndNote</li>
+            <li>Veeva / eTMF</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT ==================== -->
+  <section id="contact" class="section contact" data-zone="protein">
+    <div class="wrap">
+      <h2>Let's talk about your project</h2>
+      <p class="lede contact-lede">
+        <!-- TODO: set expectations — availability, typical project size, response time -->
+        Tell me the audience, the document, and the deadline. I'll tell you honestly whether
+        I'm the right writer for it.
+      </p>
+      <!-- TODO: replace the email address in BOTH the href and the visible text -->
+      <a class="btn" href="mailto:hello@example.com">hello@example.com</a>
+      <ul class="contact-links">
+        <!-- TODO: replace or delete each link -->
+        <li><a href="https://www.linkedin.com/in/your-profile">LinkedIn</a></li>
+        <li><a href="https://orcid.org/0000-0000-0000-0000">ORCID</a></li>
+        <li><a href="resume.pdf">CV</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>© <span id="year">2026</span> Isaac Aoki</p>
+    <p class="footer-note mono">Written and built by hand.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

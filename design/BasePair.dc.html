@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#f2efe7;color:#14161a;font-family:"IBM Plex Sans",system-ui,sans-serif}
+    a{color:#146b74}a:hover{color:#a8452c}
+    .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+    .lbl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8d94a0}
+    .note{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;line-height:1.5;color:#a8452c}
+    h2,h3{font-family:"Space Grotesk",system-ui,sans-serif;margin:0}
+    .pair{height:2px;background:#146b74;transform-origin:center;animation:pair 16s linear infinite}
+    @keyframes pair{
+      0%{transform:scaleX(1);opacity:.95}
+      25%{transform:scaleX(.03);opacity:.2}
+      50%{transform:scaleX(1);opacity:.95}
+      75%{transform:scaleX(.03);opacity:.2}
+      100%{transform:scaleX(1);opacity:.95}
+    }
+    @media (prefers-reduced-motion: reduce){.pair{animation:none;transform:scaleX(.8)}}
+    .code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11.5px;line-height:1.75;
+      background:#eae6db;border:1px solid #d3cdbf;padding:14px 16px;white-space:pre;overflow:hidden}
+    .state{border:1px solid #d3cdbf;padding:16px 18px;background:#f6f4ee}
+  </style>
+</helmet>
+
+<div style="position:relative;width:1100px;height:720px;background:#f2efe7;overflow:hidden;padding:40px 48px;">
+
+  <div class="lbl" style="margin-bottom:8px;">Sheet 05</div>
+  <h2 style="font-size:27px;font-weight:700;letter-spacing:-0.02em;">A work is a base pair</h2>
+  <p style="margin:11px 0 0;font-size:14.5px;line-height:1.6;color:#5f6670;max-width:700px;">
+    Sheet 02 gets the strands turning by translating them. A rung that carries a title cannot
+    travel — it has to stay level with its row. So the rungs are pinned, and the phase is
+    handed to them instead.
+  </p>
+
+  <!-- ---------- pinned rung demo ---------- -->
+  <div style="position:absolute;top:214px;left:48px;width:430px;">
+    <div class="lbl" style="margin-bottom:16px;">Pinned rungs · width driven by phase, y fixed</div>
+
+    <div style="display:flex;flex-direction:column;gap:0;">
+      <div style="display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid #d3cdbf;">
+        <div style="width:150px;display:flex;align-items:center;"><div class="pair" style="width:100%;animation-delay:0s;"></div></div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;">[Phase II protocol]</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid #d3cdbf;">
+        <div style="width:150px;display:flex;align-items:center;"><div class="pair" style="width:100%;animation-delay:-2.7s;"></div></div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;">[Informed consent]</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid #d3cdbf;">
+        <div style="width:150px;display:flex;align-items:center;"><div class="pair" style="width:100%;animation-delay:-5.4s;"></div></div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;">[Statistical analysis plan]</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid #d3cdbf;">
+        <div style="width:150px;display:flex;align-items:center;"><div class="pair" style="width:100%;animation-delay:-8.1s;"></div></div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;">[Investigator brochure]</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:15px 0;border-top:1px solid #d3cdbf;border-bottom:1px solid #d3cdbf;">
+        <div style="width:150px;display:flex;align-items:center;"><div class="pair" style="width:100%;animation-delay:-10.8s;"></div></div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;">[Protocol amendment]</span>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:18px;">
+      EACH ROW'S DELAY = −(y / P) × 16 s<br>
+      SO THE COLUMN READS AS ONE HELIX, NOT FIVE LOOSE BARS
+    </p>
+  </div>
+
+  <!-- ---------- technique ---------- -->
+  <div style="position:absolute;top:214px;left:544px;width:508px;">
+    <div class="lbl" style="margin-bottom:12px;">The whole trick</div>
+    <div class="code">.pair {
+  transform-origin: center;
+  animation: pair 16s linear infinite;
+}
+/* per row, set once at build time */
+style="animation-delay: -{{ y / P * 16 }}s"</div>
+
+    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.6;color:#5f6670;">
+      A negative delay starts the animation already in progress, so every rung sits at the
+      phase its position demands — without a scroll listener, a timer, or a single frame of
+      JavaScript. Rows added later inherit it from their own <span class="mono">y</span>.
+    </p>
+
+    <div class="lbl" style="margin:28px 0 12px;">States</div>
+    <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;">
+      <div class="state">
+        <div class="mono" style="font-size:11px;color:#8d94a0;margin-bottom:10px;">REST</div>
+        <div style="height:2px;background:#146b74;opacity:.55;transform:scaleX(.7);margin-bottom:10px;"></div>
+        <div style="font-size:12px;line-height:1.5;color:#5f6670;">Turning with everything else. Title in ink.</div>
+      </div>
+      <div class="state" style="border-color:#146b74;">
+        <div class="mono" style="font-size:11px;color:#146b74;margin-bottom:10px;">HOVER</div>
+        <div style="height:2.5px;background:#146b74;margin-bottom:10px;"></div>
+        <div style="font-size:12px;line-height:1.5;color:#5f6670;">Pair locks flat and full-width. Rotation pauses on this row only.</div>
+      </div>
+      <div class="state" style="border-color:#a8452c;">
+        <div class="mono" style="font-size:11px;color:#a8452c;margin-bottom:10px;">OPEN</div>
+        <div style="height:2.5px;background:#a8452c;margin-bottom:6px;"></div>
+        <div style="height:1px;background:#d3cdbf;margin-bottom:4px;"></div>
+        <div style="height:1px;background:#d3cdbf;margin-bottom:10px;"></div>
+        <div style="font-size:12px;line-height:1.5;color:#5f6670;">Expands in place into detail. Strands keep turning behind it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;right:0;bottom:0;display:flex;border-top:1px solid #d3cdbf;border-left:1px solid #d3cdbf;background:#f2efe7;">
+    <div style="padding:11px 18px;border-right:1px solid #d3cdbf;"><div class="lbl">Sheet</div><div class="mono" style="font-size:14px;">05</div></div>
+    <div style="padding:11px 18px;border-right:1px solid #d3cdbf;"><div class="lbl">Drawing</div><div class="mono" style="font-size:14px;">Base pair = work · attachment &amp; states</div></div>
+    <div style="padding:11px 18px;"><div class="lbl">Scale</div><div class="mono" style="font-size:14px;">detail</div></div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

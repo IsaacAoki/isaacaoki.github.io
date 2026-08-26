@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#f2efe7;color:#14161a;font-family:"IBM Plex Sans",system-ui,sans-serif}
+    a{color:#146b74}a:hover{color:#a8452c}
+    .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+    .lbl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8d94a0}
+    .note{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;line-height:1.5;color:#a8452c}
+    h2,h3{font-family:"Space Grotesk",system-ui,sans-serif;margin:0}
+    .spin{animation:turn 16s linear infinite}
+    @keyframes turn{from{transform:translateY(0)}to{transform:translateY(-240px)}}
+    .tumble{animation:tumble 22s linear infinite;transform-box:fill-box;transform-origin:center}
+    @keyframes tumble{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @media (prefers-reduced-motion: reduce){.spin,.tumble{animation:none}}
+    .zone{position:absolute;left:56px;width:330px;height:230px;overflow:hidden}
+    .side{position:absolute;left:432px;width:412px}
+  </style>
+</helmet>
+
+<div style="position:relative;width:900px;height:1500px;background:#f2efe7;overflow:hidden;padding:44px 48px;">
+
+  <div class="lbl" style="margin-bottom:8px;">Sheet 03</div>
+  <h2 style="font-size:28px;font-weight:700;letter-spacing:-0.02em;">What the helix does as you scroll</h2>
+  <p style="margin:12px 0 0;font-size:14.5px;line-height:1.6;color:#5f6670;max-width:640px;">
+    One continuous object, five states. It is turning in every one of them — the scroll changes
+    what it <em>is</em>, never whether it moves.
+  </p>
+
+  <!-- rail -->
+  <svg width="900" height="1230" viewBox="0 0 900 1230" fill="none" style="position:absolute;top:210px;left:0;pointer-events:none;">
+    <line x1="221" y1="0" x2="221" y2="1230" stroke="#d3cdbf" stroke-width="1"></line>
+    <g stroke="#a8452c" stroke-width="0.9" stroke-dasharray="5 4" opacity="0.8">
+      <line x1="56" y1="248" x2="844" y2="248"></line>
+      <line x1="56" y1="496" x2="844" y2="496"></line>
+      <line x1="56" y1="744" x2="844" y2="744"></line>
+      <line x1="56" y1="992" x2="844" y2="992"></line>
+    </g>
+  </svg>
+
+  <!-- ZONE 1 — DNA -->
+  <div class="zone" style="top:220px;">
+    <svg width="330" height="230" viewBox="0 0 330 230" fill="none">
+      <g class="spin">
+        <path d="{{z1.backA}}" stroke="#146b74" stroke-width="1.2" opacity="0.3"></path>
+        <path d="{{z1.backB}}" stroke="#a8452c" stroke-width="1.2" opacity="0.3"></path>
+        <sc-for list="{{z1.rungs}}" as="r" hint-placeholder-count="8">
+          <line x1="{{r.x1}}" y1="{{r.y}}" x2="{{r.x2}}" y2="{{r.y}}" stroke="{{r.color}}" stroke-width="1.3" opacity="{{r.o}}" stroke-linecap="round"></line>
+        </sc-for>
+        <path d="{{z1.frontA}}" stroke="#146b74" stroke-width="2.4" stroke-linecap="round"></path>
+        <path d="{{z1.frontB}}" stroke="#a8452c" stroke-width="2.4" stroke-linecap="round"></path>
+      </g>
+    </svg>
+  </div>
+  <div class="side" style="top:238px;">
+    <div class="lbl" style="color:#146b74;margin-bottom:7px;">Zone 01 · DNA</div>
+    <h3 style="font-size:21px;font-weight:500;letter-spacing:-0.015em;">The template</h3>
+    <p style="margin:9px 0 0;font-size:14px;line-height:1.6;color:#5f6670;">
+      Both backbones present, tightly wound, base pairs at full contrast. This is the densest
+      the drawing ever gets — matching documents nobody outside the trial will ever read.
+    </p>
+    <p class="mono" style="margin:12px 0 0;font-size:12px;color:#8d94a0;">Protocols · SAPs · Investigator brochures · Consent forms</p>
+  </div>
+
+  <!-- ZONE 2 — TRANSCRIPTION -->
+  <div class="zone" style="top:468px;">
+    <svg width="330" height="230" viewBox="0 0 330 230" fill="none">
+      <defs>
+        <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#a8452c" stop-opacity="0.85"></stop>
+          <stop offset="1" stop-color="#a8452c" stop-opacity="0.06"></stop>
+        </linearGradient>
+      </defs>
+      <g class="spin">
+        <sc-for list="{{z2.rungs}}" as="r" hint-placeholder-count="6">
+          <line x1="{{r.x1}}" y1="{{r.y}}" x2="{{r.x2}}" y2="{{r.y}}" stroke="#8d94a0" stroke-width="1.1" opacity="{{r.o}}" stroke-linecap="round"></line>
+        </sc-for>
+        <path d="{{z2.a}}" stroke="#146b74" stroke-width="2.4" stroke-linecap="round"></path>
+        <path d="{{z2.b}}" stroke="url(#fade)" stroke-width="2.2" stroke-linecap="round"></path>
+      </g>
+    </svg>
+  </div>
+  <div class="side" style="top:486px;">
+    <div class="lbl" style="color:#a8452c;margin-bottom:7px;">Zone 02 · Transcription</div>
+    <h3 style="font-size:21px;font-weight:500;letter-spacing:-0.015em;">The strands part</h3>
+    <p style="margin:9px 0 0;font-size:14px;line-height:1.6;color:#5f6670;">
+      Separation widens with scroll depth; the rust backbone fades out of the drawing entirely.
+      Base pairs unhook and dim. Nothing else on the page changes — the transition belongs to
+      the helix alone.
+    </p>
+    <p class="mono" style="margin:12px 0 0;font-size:12px;color:#8d94a0;">Transition band · no work items sit here</p>
+  </div>
+
+  <!-- ZONE 3 — RNA -->
+  <div class="zone" style="top:716px;">
+    <svg width="330" height="230" viewBox="0 0 330 230" fill="none">
+      <g class="spin">
+        <sc-for list="{{z3.bases}}" as="r" hint-placeholder-count="10">
+          <line x1="{{r.x1}}" y1="{{r.y}}" x2="{{r.x2}}" y2="{{r.y}}" stroke="#146b74" stroke-width="1.4" opacity="{{r.o}}" stroke-linecap="round"></line>
+        </sc-for>
+        <path d="{{z3.back}}" stroke="#146b74" stroke-width="1.2" opacity="0.32"></path>
+        <path d="{{z3.front}}" stroke="#146b74" stroke-width="2.6" stroke-linecap="round"></path>
+      </g>
+    </svg>
+  </div>
+  <div class="side" style="top:734px;">
+    <div class="lbl" style="color:#146b74;margin-bottom:7px;">Zone 03 · RNA</div>
+    <h3 style="font-size:21px;font-weight:500;letter-spacing:-0.015em;">The transcript</h3>
+    <p style="margin:9px 0 0;font-size:14px;line-height:1.6;color:#5f6670;">
+      A single backbone, still turning, bases now unpaired and pointing outward. Each unpaired
+      base is a published piece — readable, but only by machinery that already speaks the language.
+    </p>
+    <p class="mono" style="margin:12px 0 0;font-size:12px;color:#8d94a0;">CSRs · Manuscripts · Abstracts · Posters</p>
+  </div>
+
+  <!-- ZONE 4 — TRANSLATION -->
+  <div class="zone" style="top:964px;">
+    <svg width="330" height="230" viewBox="0 0 330 230" fill="none">
+      <g class="spin">
+        <path d="{{z4.strand}}" stroke="#146b74" stroke-width="2.2" opacity="0.55" stroke-linecap="round"></path>
+      </g>
+      <ellipse cx="165" cy="118" rx="58" ry="42" fill="#eae6db" stroke="#a8452c" stroke-width="1.4"></ellipse>
+      <ellipse cx="165" cy="102" rx="38" ry="24" fill="none" stroke="#a8452c" stroke-width="1" opacity="0.6"></ellipse>
+      <path d="{{z4.chain}}" stroke="#a8452c" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+      <sc-for list="{{z4.beads}}" as="b" hint-placeholder-count="5">
+        <circle cx="{{b.x}}" cy="{{b.y}}" r="3.4" fill="#a8452c"></circle>
+      </sc-for>
+    </svg>
+  </div>
+  <div class="side" style="top:982px;">
+    <div class="lbl" style="color:#a8452c;margin-bottom:7px;">Zone 04 · Translation</div>
+    <h3 style="font-size:21px;font-weight:500;letter-spacing:-0.015em;">Read out, in another language</h3>
+    <p style="margin:9px 0 0;font-size:14px;line-height:1.6;color:#5f6670;">
+      The strand feeds through a fixed reader while the chain emerges below it. The one moment
+      on the page where something is <em>held still</em> — everything else keeps turning around it.
+      This is where the before/after rewrite lives.
+    </p>
+    <p class="mono" style="margin:12px 0 0;font-size:12px;color:#8d94a0;">Plain-language rewrite, shown side by side</p>
+  </div>
+
+  <!-- ZONE 5 — PROTEIN -->
+  <div class="zone" style="top:1212px;">
+    <svg width="330" height="230" viewBox="0 0 330 230" fill="none">
+      <g class="tumble">
+        <path d="{{z5.chain}}" stroke="#a8452c" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+        <sc-for list="{{z5.beads}}" as="b" hint-placeholder-count="7">
+          <circle cx="{{b.x}}" cy="{{b.y}}" r="{{b.r}}" fill="#a8452c" opacity="{{b.o}}"></circle>
+        </sc-for>
+      </g>
+    </svg>
+  </div>
+  <div class="side" style="top:1230px;">
+    <div class="lbl" style="color:#a8452c;margin-bottom:7px;">Zone 05 · Protein</div>
+    <h3 style="font-size:21px;font-weight:500;letter-spacing:-0.015em;">The functional product</h3>
+    <p style="margin:9px 0 0;font-size:14px;line-height:1.6;color:#5f6670;">
+      No helix left — a folded chain, tumbling on its own axis. The rotation carries through to
+      the end of the page, which is the point: the turning was never decoration, it was the subject.
+    </p>
+    <p class="mono" style="margin:12px 0 0;font-size:12px;color:#8d94a0;">Lay summaries · Decision aids · Patient materials</p>
+  </div>
+
+  <div style="position:absolute;right:0;bottom:0;display:flex;border-top:1px solid #d3cdbf;border-left:1px solid #d3cdbf;background:#f2efe7;">
+    <div style="padding:11px 18px;border-right:1px solid #d3cdbf;"><div class="lbl">Sheet</div><div class="mono" style="font-size:14px;">03</div></div>
+    <div style="padding:11px 18px;border-right:1px solid #d3cdbf;"><div class="lbl">Drawing</div><div class="mono" style="font-size:14px;">Scroll journey — five states</div></div>
+    <div style="padding:11px 18px;"><div class="lbl">Scale</div><div class="mono" style="font-size:14px;">schematic</div></div>
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script>
+class Component extends DCLogic {
+  strand(cx, A, P, H, phase, drift) {
+    const step = 4;
+    let front = '', back = '', fO = false, bO = false;
+    for (let y = 0; y <= H; y += step) {
+      const t = 2 * Math.PI * y / P + phase;
+      const c = cx + (drift ? drift * (y / H) : 0);
+      const x = (c + A * Math.sin(t)).toFixed(1), yy = y.toFixed(1), z = Math.cos(t);
+      if (z >= -0.03) { front += (fO ? 'L' : 'M') + x + ' ' + yy + ' '; fO = true; } else fO = false;
+      if (z <= 0.03)  { back  += (bO ? 'L' : 'M') + x + ' ' + yy + ' '; bO = true; } else bO = false;
+    }
+    return { front: front.trim(), back: back.trim() };
+  }
+  whole(cx, A, P, H, phase, drift) {
+    let d = '';
+    for (let y = 0; y <= H; y += 4) {
+      const t = 2 * Math.PI * y / P + phase;
+      const c = cx + (drift ? drift * (y / H) : 0);
+      d += (y === 0 ? 'M' : 'L') + (c + A * Math.sin(t)).toFixed(1) + ' ' + y.toFixed(1) + ' ';
+    }
+    return d.trim();
+  }
+  rungs(cx, A, P, H, perTurn, phase) {
+    const out = [], s = P / perTurn;
+    for (let y = s / 2; y <= H; y += s) {
+      const t = 2 * Math.PI * y / P + phase, dx = A * Math.sin(t);
+      out.push({ y: +y.toFixed(1), x1: +(cx + dx).toFixed(1), x2: +(cx - dx).toFixed(1),
+        o: +(0.16 + 0.44 * Math.abs(Math.sin(t))).toFixed(2),
+        color: Math.cos(t) >= 0 ? '#146b74' : '#a8452c' });
+    }
+    return out;
+  }
+  renderVals() {
+    const P = 240, H = 470, cx = 165;
+    const A = 74;
+    const z1s = this.strand(cx, A, P, H, 0), z1b = this.strand(cx, A, P, H, Math.PI);
+
+    // zone 2: strands drift apart, pairs stretch and dim
+    const z2a = this.whole(cx, A * 0.8, P, H, 0, -34);
+    const z2b = this.whole(cx, A * 0.8, P, H, Math.PI, 34);
+    const z2r = [];
+    for (let y = 20; y <= H; y += P / 5) {
+      const t = 2 * Math.PI * y / P, k = y / H;
+      z2r.push({ y: +y.toFixed(1),
+        x1: +(cx - 34 * k + A * 0.8 * Math.sin(t)).toFixed(1),
+        x2: +(cx + 34 * k + A * 0.8 * Math.sin(t + Math.PI)).toFixed(1),
+        o: +(0.4 * (1 - k)).toFixed(2) });
+    }
+
+    // zone 3: single strand, unpaired bases pointing outward
+    const z3 = this.strand(cx, A, P, H, 0);
+    const z3b = [];
+    for (let y = 16; y <= H; y += P / 7) {
+      const t = 2 * Math.PI * y / P, x = cx + A * Math.sin(t);
+      const dir = Math.cos(t) >= 0 ? 1 : -1;
+      z3b.push({ y: +y.toFixed(1), x1: +x.toFixed(1), x2: +(x + dir * 22).toFixed(1),
+        o: +(0.25 + 0.45 * Math.abs(Math.sin(t))).toFixed(2) });
+    }
+
+    // zone 4: strand feeding a fixed reader, chain emerging below
+    const z4strand = this.whole(cx, A * 0.9, P, H, 0, 0);
+    const pts4 = [[150,160],[132,182],[152,200],[130,218],[150,232]];
+    const z4chain = 'M' + pts4.map(p => p[0] + ' ' + p[1]).join(' L');
+
+    // zone 5: folded chain
+    const pts5 = [[118,150],[152,120],[128,88],[168,66],[206,92],[192,132],[214,158]];
+    const z5chain = 'M' + pts5.map(p => p[0] + ' ' + p[1]).join(' L');
+
+    return {
+      z1: { frontA: z1s.front, backA: z1s.back, frontB: z1b.front, backB: z1b.back, rungs: this.rungs(cx, A, P, H, 6, 0) },
+      z2: { a: z2a, b: z2b, rungs: z2r },
+      z3: { front: z3.front, back: z3.back, bases: z3b },
+      z4: { strand: z4strand, chain: z4chain, beads: pts4.map(p => ({ x: p[0], y: p[1] })) },
+      z5: { chain: z5chain, beads: pts5.map((p, i) => ({ x: p[0], y: p[1], r: i % 2 ? 3.2 : 4.4, o: i % 2 ? 0.6 : 1 })) }
+    };
+  }
+}
+</script>
+</body>
+</html>
