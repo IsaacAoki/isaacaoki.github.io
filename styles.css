@@ -1,447 +1,325 @@
 /* ============================================================
    Isaac Aoki — medical writer
-   Direction C, "The Unwinding": one helix, permanently turning,
-   whose state is driven by how far down the page you are.
+   Design: "4A · The page, with the lettered helix"
    ============================================================ */
 
-:root {
-  --paper:      #f2efe7;
-  --paper-2:    #eae6db;
-  --ink:        #14161a;
-  --ink-soft:   #5f6670;
-  --ink-faint:  #8d94a0;
-  --rule:       #d3cdbf;
-  --teal:       #146b74;
-  --rust:       #a8452c;
-  --phase:      var(--teal);
+:root{
+  --paper:#f4f2ec; --paper2:#eae7de; --sheet:#fffdf8;
+  --ink:#17191d; --muted:#6f6d66; --line:#d8d4c9;
+  --a:#2b5b7a; --b:#a4674a; --a-soft:#e2ebf1;
+  /* base letters: A, T, G, C */
+  --n-a:#24606f; --n-t:#5d93a6; --n-g:#9c5f42; --n-c:#c08a6a;
 
-  --turn:       16s;       /* one full revolution */
-  --sep:        170px;     /* how far the strands part */
-  --max:        70rem;
-  --measure:    36rem;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --sans:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+
+  --pad:48px;
+  --max:1180px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper:     #121417;
-    --paper-2:   #191c20;
-    --ink:       #ecebe6;
-    --ink-soft:  #a8b0b8;
-    --ink-faint: #757e88;
-    --rule:      #2a2f35;
-    --teal:      #5fc0ae;
-    --rust:      #e08256;
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#121316; --paper2:#191b1f; --sheet:#1c1e23;
+    --ink:#eceae3; --muted:#9a978e; --line:#31343a;
+    --a:#8fb9d3; --b:#d59c7c; --a-soft:#1e2a33;
+    --n-a:#7fc0cf; --n-t:#a8cddb; --n-g:#d99a76; --n-c:#eabb9c;
   }
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*,*::before,*::after{box-sizing:border-box;}
 
-html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html{scroll-behavior:smooth;}
 
-body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-  font-size: 1.0625rem;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
 }
 
-h1, h2, h3 {
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.022em;
-  margin: 0;
+a{color:var(--a);text-decoration:none;}
+a:hover{color:var(--b);text-decoration:underline;text-underline-offset:3px;}
+
+:focus-visible{outline:2px solid var(--b);outline-offset:3px;}
+
+.skip-link{
+  position:absolute;left:-9999px;top:0;z-index:20;
+  background:var(--ink);color:var(--paper);
+  padding:12px 18px;border-radius:0 0 4px 0;
 }
-p { margin: 0 0 1.1em; }
-p:last-child { margin-bottom: 0; }
+.skip-link:focus{left:0;}
 
-a { color: var(--phase); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-a:hover { text-decoration-thickness: 2px; }
-
-.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
-
-:focus-visible { outline: 2px solid var(--phase); outline-offset: 3px; border-radius: 2px; }
-
-.wrap { width: min(100% - 2.5rem, var(--max)); margin-inline: auto; }
-
-.sr-only, .skip-link {
-  position: absolute; width: 1px; height: 1px;
-  padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
-}
-.skip-link:focus {
-  position: fixed; top: .75rem; left: .75rem; z-index: 100;
-  width: auto; height: auto; clip-path: none; margin: 0;
-  padding: .6rem 1rem; background: var(--paper); border: 1px solid var(--rule);
+/* Every section is full-bleed; .wrap is the centred 1180px column
+   the artboard is drawn at. */
+.wrap{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:0 var(--pad);
 }
 
-/* ============================================================
-   THE HELIX LAYER
+/* ---------- hero ---------------------------------------------------- */
 
-   Three motions run at once on periods that never divide into
-   each other — a 16 s turn, a 23 s parallax turn, a 47 s
-   precession — so the composite never visibly repeats. Scroll
-   adds a fourth: your position on the page is the time axis.
-   ============================================================ */
-
-.helix-layer {
-  position: fixed; inset: 0; z-index: 0;
-  pointer-events: none; overflow: hidden;
-  opacity: .62;
-  /* No hard top or bottom edge — the coil should read as continuing
-     past the viewport, not as an object that stops. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 11%, #000 89%, transparent 100%);
-          mask-image: linear-gradient(to bottom, transparent 0%, #000 11%, #000 89%, transparent 100%);
-}
-.helix {
-  position: absolute; top: 0; left: 0;
-  transform-box: fill-box; transform-origin: 50% 50%;
-  animation: precess 47s ease-in-out infinite alternate;
-}
-/* A degree and a half. Not visible as motion — visible as the
-   loop failing to land in the same place twice. */
-@keyframes precess {
-  from { transform: rotate(-1.6deg) scale(1.015); }
-  to   { transform: rotate(1.6deg)  scale(1); }
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:var(--paper2);
+  border-bottom:1px solid var(--line);
 }
 
-.spin { animation: helix-turn var(--turn) linear infinite; }
-@keyframes helix-turn {
-  from { transform: translateY(0); }
-  to   { transform: translateY(calc(-1 * var(--helix-period, 300px))); }
+.helix-layer{
+  position:absolute;
+  top:0;bottom:0;
+  right:max(70px, calc(50% - var(--max) / 2 + 70px));
+  width:300px;
+  opacity:.85;
+  pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 62%,transparent);
+          mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 62%,transparent);
 }
-.spin-far { animation-duration: 23s; }
+.helix{position:absolute;inset:0;width:100%;height:100%;}
 
-/* Scroll-driven phase. One compositor transform, composed with the
-   time-driven one above; the far layer lags for parallax. */
-.phase     { transform: translateY(var(--sp, 0px)); }
-.phase-far { transform: translateY(var(--sp-far, 0px)); }
+.hero-wrap{position:relative;}
 
-.helix path, .helix line, .helix ellipse { fill: none; stroke-linecap: round; }
-
-/* Depth bands. Width and opacity are set per band when the helix is
-   built — the nearest arc is 3 px and opaque, the farthest is under
-   1 px and nearly gone. That gradient is the whole sense of volume. */
-.l-strand-a path { stroke: var(--teal); }
-.l-strand-b path { stroke: var(--rust); }
-.l-far-a path    { stroke: var(--teal); }
-.l-far-b path    { stroke: var(--rust); }
-
-.l-rungs line { stroke-width: 1.1; }
-.l-bases line { stroke: var(--teal); stroke-width: 1.8; }
-
-.reader-body { stroke: var(--rust); stroke-width: 1.6; fill: var(--paper-2); }
-.reader-cap  { stroke: var(--rust); stroke-width: 1; opacity: .55; }
-
-.chain-line { stroke: var(--rust); stroke-width: 2.6; stroke-linejoin: round; }
-.chain-beads circle { fill: var(--rust); stroke: none; }
-
-/* ---- zone states ----------------------------------------------
-   Everything here is opacity or transform, so every state change
-   stays on the compositor. The easing is deliberately slow out of
-   the gate and long in the tail: matter has inertia.
-   ---------------------------------------------------------------- */
-.l-strand-a, .l-strand-b, .l-rungs, .l-bases, .l-reader, .l-chain,
-.l-far-a, .l-far-b {
-  transition: opacity 1.4s cubic-bezier(.33,.02,.24,1),
-              transform 1.9s cubic-bezier(.33,.02,.24,1);
-}
-.l-rungs { transform-box: fill-box; transform-origin: 50% 50%; }
-.l-bases, .l-reader, .l-chain { opacity: 0; }
-
-/* transcription onward — the rust backbone drifts out of frame */
-[data-zone="transcription"] .l-strand-b,
-[data-zone="rna"] .l-strand-b,
-[data-zone="translation"] .l-strand-b,
-[data-zone="protein"] .l-strand-b { opacity: 0; transform: translateX(var(--sep)); }
-
-[data-zone="transcription"] .l-strand-a,
-[data-zone="rna"] .l-strand-a,
-[data-zone="translation"] .l-strand-a { transform: translateX(calc(-1 * var(--sep) * .45)); }
-
-/* the pairs stretch before they let go, rather than simply fading */
-[data-zone="transcription"] .l-rungs,
-[data-zone="rna"] .l-rungs,
-[data-zone="translation"] .l-rungs,
-[data-zone="protein"] .l-rungs { opacity: 0; transform: scaleX(1.75); }
-
-/* the parallax layer thins out once the helix is no longer a helix */
-[data-zone="transcription"] .l-far-b,
-[data-zone="rna"] .l-far-b,
-[data-zone="translation"] .l-far-b,
-[data-zone="protein"] .l-far-b { opacity: 0; }
-[data-zone="protein"] .l-far-a { opacity: 0; }
-
-[data-zone="rna"] .l-bases,
-[data-zone="translation"] .l-bases { opacity: 1; }
-
-[data-zone="translation"] .l-reader { opacity: 1; }
-[data-zone="translation"] .l-strand-a { opacity: .5; }
-
-[data-zone="protein"] .l-strand-a,
-[data-zone="protein"] .l-bases { opacity: 0; }
-[data-zone="protein"] .l-chain { opacity: 1; transform: scale(1); }
-
-/* the chain arrives as though it were extruded, not switched on */
-.l-chain { transform-box: fill-box; transform-origin: 50% 50%; transform: scale(.72); }
-.chain-spin {
-  transform-box: fill-box; transform-origin: 50% 50%;
-  animation: tumble 26s linear infinite;
-}
-@keyframes tumble { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-@media (prefers-reduced-motion: reduce) {
-  .spin, .chain-spin, .helix { animation: none; }
-  .phase, .phase-far { transform: none; }
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  padding:22px 0;
 }
 
-/* ============================================================
-   CHROME
-   ============================================================ */
-
-.site-header {
-  position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--paper) 82%, transparent);
-  backdrop-filter: blur(9px);
-  border-bottom: 1px solid transparent;
-  transition: border-color .2s;
+.wordmark{
+  font-family:var(--serif);
+  font-size:21px;
+  color:var(--ink);
 }
-.site-header.is-stuck { border-bottom-color: var(--rule); }
-.header-inner { display: flex; align-items: center; justify-content: space-between; height: 4.25rem; }
+.wordmark:hover{color:var(--ink);text-decoration:none;}
 
-.wordmark {
-  font-family: "Space Grotesk", sans-serif; font-weight: 700;
-  font-size: 1.1rem; letter-spacing: -0.015em; color: var(--ink); text-decoration: none;
+.nav{display:flex;align-items:center;gap:22px;}
+.nav a:not(.btn){font-size:14px;color:var(--muted);}
+
+.btn{
+  font-size:14px;
+  font-weight:600;
+  padding:11px 18px;
+  border-radius:4px;
+  white-space:nowrap;
 }
+.btn:hover{text-decoration:none;}
+.btn-accent{background:var(--b);color:var(--sheet);}
+.btn-accent:hover{background:var(--ink);color:var(--paper);}
+.btn-ink{background:var(--ink);color:var(--paper);}
+.btn-ink:hover{background:var(--b);color:var(--sheet);}
 
-.site-nav { display: flex; align-items: center; gap: 1.75rem; }
-.site-nav a { color: var(--ink-soft); text-decoration: none; font-size: .9375rem; }
-.site-nav a:hover, .site-nav a.is-active { color: var(--ink); }
-.site-nav a.is-active {
-  text-decoration: underline; text-decoration-color: var(--phase);
-  text-underline-offset: 6px; text-decoration-thickness: 2px;
-}
-.nav-cta { padding: .4rem .9rem; border: 1px solid var(--rule); }
-.nav-cta:hover { border-color: var(--phase); }
-.nav-toggle { display: none; }
-
-main, .site-footer { position: relative; z-index: 1; }
-
-/* ============================================================
-   SECTIONS
-   ============================================================ */
-
-.hero { padding: clamp(4rem, 12vw, 9rem) 0 clamp(4rem, 10vw, 8rem); }
-
-.eyebrow, .zone-tag {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: .74rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--phase); margin-bottom: 1.3rem;
+.hero-body{
+  padding:104px 0 112px;
+  max-width:660px;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
 }
 
-.hero h1 { font-size: clamp(2.3rem, 6.4vw, 4.1rem); max-width: 17ch; margin-bottom: 1.5rem; }
-
-.lede {
-  font-size: clamp(1.06rem, 1.9vw, 1.22rem);
-  color: var(--ink-soft); max-width: var(--measure);
+.eyebrow{
+  margin:0;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
 }
 
-.scroll-cue {
-  font-size: .74rem; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--ink-faint); margin-top: 3.5rem;
+h1{
+  margin:0;
+  font-family:var(--serif);
+  font-size:56px;
+  line-height:1.16;
+  font-weight:400;
 }
 
-.section { padding: clamp(4rem, 9vw, 7rem) 0; }
-.section-solid { background: color-mix(in srgb, var(--paper) 90%, transparent); }
-
-.zone-head { margin-bottom: 3rem; }
-.zone-tag { margin-bottom: .9rem; }
-.zone-head h2 { font-size: clamp(1.8rem, 3.8vw, 2.5rem); margin-bottom: .9rem; }
-.zone-intro { color: var(--ink-soft); max-width: var(--measure); }
-
-/* --- the interstitial where the strands part --- */
-.interstitial {
-  padding: clamp(5rem, 14vw, 11rem) 0;
-  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
-}
-.interstitial-line {
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(1.25rem, 2.7vw, 1.75rem);
-  font-weight: 500; line-height: 1.35; letter-spacing: -0.018em;
-  max-width: 28ch; text-wrap: pretty;
+.lede{
+  margin:0;
+  font-size:18px;
+  line-height:1.68;
+  color:var(--muted);
+  max-width:520px;
 }
 
-/* ============================================================
-   WORKS — each row is a base pair
-   ============================================================ */
+/* ---------- bands --------------------------------------------------- */
 
-.works { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
+.band{
+  padding:60px 0;
+  border-bottom:1px solid var(--line);
+}
+.band .wrap{
+  display:grid;
+  grid-template-columns:190px 1fr;
+  gap:40px;
+  align-items:start;
+}
+.band-alt{background:var(--paper2);}
+.band:last-of-type{border-bottom:0;}
 
-.work {
-  display: flex; align-items: flex-start; gap: 2rem;
-  padding: 1.9rem 0; border-bottom: 1px solid var(--rule);
+.num{
+  margin:0;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.num-a{color:var(--a);}
+.num-b{color:var(--b);}
+
+.band-label h2{
+  margin:8px 0 0;
+  font-family:var(--serif);
+  font-size:26px;
+  font-weight:400;
+  line-height:1.25;
+}
+.note{
+  margin:8px 0 0;
+  font-size:13.5px;
+  line-height:1.6;
+  color:var(--muted);
 }
 
-/* The pinned rung. Its width carries the phase its position demands —
-   set once as a negative animation-delay, then left alone. */
-.pair {
-  flex: 0 0 5.5rem; height: 2px; margin-top: 1.15rem;
-  background: var(--phase); transform-origin: center;
-  animation: pair var(--turn) linear infinite;
-  animation-delay: var(--d, 0s);
-}
-@keyframes pair {
-  0%, 100% { transform: scaleX(1);   opacity: .9; }
-  25%, 75% { transform: scaleX(.04); opacity: .18; }
-  50%      { transform: scaleX(1);   opacity: .9; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .pair { animation: none; transform: scaleX(.8); opacity: .75; }
-}
+/* research cards */
 
-.work-body { flex: 1; min-width: 0; max-width: 46rem; }
-.work-meta { display: flex; gap: 1rem; align-items: baseline; margin-bottom: .45rem; }
-.work-type {
-  font-family: "IBM Plex Mono", monospace; font-size: .72rem;
-  letter-spacing: .12em; text-transform: uppercase; color: var(--phase);
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+
+.card{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  background:var(--sheet);
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:26px;
+  color:var(--ink);
+  transition:border-color .18s ease;
 }
-.work-year { font-family: "IBM Plex Mono", monospace; font-size: .78rem; color: var(--ink-faint); }
-.work h3 { font-size: 1.3rem; font-weight: 500; margin-bottom: .5rem; }
-.work h3 a { color: var(--ink); text-decoration: none; }
-.work h3 a:hover { color: var(--phase); text-decoration: underline; text-underline-offset: 4px; }
-.work-desc { color: var(--ink-soft); font-size: .97rem; }
-.work-detail { font-size: .85rem; color: var(--ink-faint); margin-top: .45rem; }
-.work-detail strong { color: var(--ink-soft); font-weight: 500; }
+.card:hover{color:var(--ink);text-decoration:none;}
+.card-a:hover{border-color:var(--a);}
 
-/* the row's pair locks flat while you read it */
-.work:hover .pair, .work:focus-within .pair {
-  animation-play-state: paused; transform: scaleX(1); opacity: 1;
+.meta{font-family:var(--mono);font-size:11px;color:var(--muted);}
+.card-title{font-family:var(--serif);font-size:22px;line-height:1.3;}
+.card-desc{font-size:14px;line-height:1.6;color:var(--muted);}
+
+/* writing rows */
+
+.rows{display:flex;flex-direction:column;gap:22px;}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:30px;
+  background:var(--sheet);
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:28px 30px;
+  color:var(--ink);
+  transition:border-color .18s ease;
 }
+.row:hover{color:var(--ink);text-decoration:none;}
+.row-b:hover{border-color:var(--b);}
 
-/* ============================================================
-   TRANSLATION — the rewrite
-   ============================================================ */
+.row-body{display:flex;flex-direction:column;gap:6px;max-width:560px;}
+.row-title{font-family:var(--serif);font-size:26px;line-height:1.25;}
+.row-desc{font-size:15px;line-height:1.65;color:var(--muted);}
+.row-tag{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;}
+.tag-b{color:var(--b);}
 
-.rewrite {
-  display: grid; gap: 1.5rem;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
+/* before / after */
+
+.compare{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border:1px solid var(--line);
+  border-radius:5px;
+  overflow:hidden;
 }
-.rewrite-label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: .8rem; }
-.rewrite-text { padding: 1.4rem 1.5rem; margin: 0; font-size: 1rem; border: 1px solid var(--rule); }
-.rewrite-text.before { background: var(--paper-2); color: var(--ink-soft); }
-.rewrite-text.after  { background: color-mix(in srgb, var(--rust) 9%, var(--paper)); color: var(--ink); border-color: color-mix(in srgb, var(--rust) 35%, transparent); }
-.rewrite-arrow { font-size: 1.4rem; color: var(--phase); }
-.rewrite-note { margin-top: 1.5rem; font-size: .88rem; color: var(--ink-faint); }
+.pane{padding:30px;display:flex;flex-direction:column;gap:12px;}
+.pane-before{background:var(--sheet);border-right:1px solid var(--line);}
+.pane-after{background:var(--a-soft);}
 
-/* ============================================================
-   ABOUT · EXPERIENCE · CONTACT
-   ============================================================ */
-
-.grid-split { display: grid; gap: 3rem; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); }
-.col-head h2 { font-size: clamp(1.6rem, 3.2vw, 2rem); }
-.col-sub { margin-top: .7rem; font-size: .92rem; }
-.prose { max-width: var(--measure); color: var(--ink-soft); }
-.prose p { margin-bottom: 1.35em; }
-
-.timeline { list-style: none; padding: 0; margin: 0; }
-.timeline li { padding: 0 0 2rem 1.6rem; border-left: 1px solid var(--rule); position: relative; max-width: var(--measure); }
-.timeline li:last-child { padding-bottom: 0; border-left-color: transparent; }
-.timeline li::before {
-  content: ""; position: absolute; left: -4.5px; top: .65rem;
-  width: 8px; height: 8px; background: var(--phase);
+.pane-label{
+  margin:0;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
 }
-.role-when { font-size: .78rem; color: var(--ink-faint); margin-bottom: .35rem; }
-.timeline h3 { font-size: 1.08rem; font-weight: 500; margin-bottom: .2rem; }
-.role-org { font-size: .92rem; color: var(--ink-soft); margin-bottom: .45rem; }
-.role-note { font-size: .95rem; color: var(--ink-soft); }
+.pane-after .pane-label{color:var(--a);}
 
-.skills { margin-top: 2.5rem; padding-top: 1.75rem; border-top: 1px solid var(--rule); }
-.skills-title { font-size: 1rem; font-weight: 500; margin-bottom: .9rem; }
-.tags { display: flex; flex-wrap: wrap; gap: .45rem; list-style: none; padding: 0; margin: 0; }
-.tags li {
-  font-family: "IBM Plex Mono", monospace; font-size: .78rem;
-  padding: .28rem .7rem; border: 1px solid var(--rule); color: var(--ink-soft);
-}
+.pane-text{margin:0;font-size:15px;line-height:1.7;color:var(--muted);}
+.pane-after .pane-text{font-size:17px;color:var(--ink);}
 
-.contact { text-align: center; }
-.contact h2 { font-size: clamp(1.9rem, 4.2vw, 2.7rem); margin-bottom: 1rem; }
-.contact-lede { margin-inline: auto; margin-bottom: 2.4rem; }
-.btn {
-  display: inline-block; padding: 1rem 2.1rem;
-  background: var(--ink); color: var(--paper);
-  font-size: 1.02rem; font-weight: 500; text-decoration: none;
-  transition: transform .12s ease;
+/* ---------- footer -------------------------------------------------- */
+
+footer{
+  padding:44px 0;
+  border-top:1px solid var(--line);
+  background:var(--paper2);
 }
-.btn:active { transform: translateY(1px); }
-.contact-links {
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
-  list-style: none; padding: 0; margin: 2.4rem 0 0; font-size: .95rem;
+footer .wrap{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:30px;
+  flex-wrap:wrap;
 }
 
-.site-footer { border-top: 1px solid var(--rule); padding: 2rem 0; }
-.footer-inner {
-  display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between;
-  font-size: .82rem; color: var(--ink-faint);
+.contact-line{
+  margin:0;
+  font-family:var(--mono);
+  font-size:12px;
+  line-height:2;
+  color:var(--muted);
 }
+.contact-line a{color:var(--muted);}
+.contact-line a:hover{color:var(--b);}
 
-/* ============================================================
-   ZONE ACCENTS
-   ============================================================ */
-[data-zone="dna"]           { --phase: var(--teal); }
-[data-zone="transcription"] { --phase: var(--rust); }
-[data-zone="rna"]           { --phase: var(--teal); }
-[data-zone="translation"]   { --phase: var(--rust); }
-[data-zone="protein"]       { --phase: var(--rust); }
+/* ---------- narrow -------------------------------------------------- */
 
-/* ============================================================
-   NARROW
-   ============================================================ */
-@media (max-width: 48rem) {
-  /* Text runs the full width on a phone, so it sits over the helix.
-     Drop the layer back until the words win every time. */
-  .helix-layer { opacity: .42; }
+@media (max-width: 900px){
+  :root{--pad:28px;}
 
-  .grid-split { grid-template-columns: 1fr; gap: 1.75rem; }
-
-  .rewrite { grid-template-columns: 1fr; gap: 1rem; }
-  .rewrite-arrow { transform: rotate(90deg); justify-self: start; }
-
-  .work { gap: 1.1rem; }
-  .pair { flex-basis: 2.2rem; margin-top: 1.05rem; }
-
-  .nav-toggle {
-    display: grid; place-items: center;
-    width: 2.5rem; height: 2.5rem; padding: 0;
-    background: none; border: 1px solid var(--rule); cursor: pointer;
+  .helix-layer{
+    right:-56px !important;
+    width:240px;
+    opacity:.4;
   }
-  .nav-toggle-bar, .nav-toggle-bar::before, .nav-toggle-bar::after {
-    content: ""; display: block; width: 1.05rem; height: 1.5px;
-    background: var(--ink); transition: transform .2s;
-  }
-  .nav-toggle-bar::before { transform: translateY(-5.5px); }
-  .nav-toggle-bar::after  { transform: translateY(4px); }
-  .nav-toggle[aria-expanded="true"] .nav-toggle-bar { background: transparent; }
-  .nav-toggle[aria-expanded="true"] .nav-toggle-bar::before { transform: rotate(45deg); }
-  .nav-toggle[aria-expanded="true"] .nav-toggle-bar::after  { transform: translateY(-1.5px) rotate(-45deg); }
 
-  .site-nav {
-    display: none; position: absolute; left: 0; right: 0; top: 100%;
-    flex-direction: column; align-items: stretch; gap: 0;
-    background: var(--paper); border-bottom: 1px solid var(--rule); padding: .5rem 0 1rem;
-  }
-  .site-nav.is-open { display: flex; }
-  .site-nav a { padding: .8rem calc((100vw - min(100vw - 2.5rem, var(--max))) / 2); font-size: 1rem; }
-  .nav-cta { border: none; color: var(--phase); }
+  .hero-body{padding:72px 0 84px;max-width:none;}
+  h1{font-size:clamp(32px,5.4vw,48px);}
+
+  .band{padding:48px 0;}
+  .band .wrap{grid-template-columns:1fr;gap:28px;}
+  .cards{grid-template-columns:1fr;gap:18px;}
+  .compare{grid-template-columns:1fr;}
+  .pane-before{border-right:0;border-bottom:1px solid var(--line);}
+
+  .row{flex-direction:column;align-items:flex-start;gap:12px;}
+
+  .topbar{flex-wrap:wrap;gap:14px;}
+  .nav{gap:16px;}
 }
 
-@media print {
-  .helix-layer, .site-header, .site-footer, .scroll-cue { display: none; }
-  body { background: #fff; color: #000; font-size: 11pt; }
-  .section, .interstitial { padding: 1rem 0; }
-  .pair { display: none; }
-  a { color: #000; }
+@media (max-width: 520px){
+  /* no room beside the headline at this width — the helix becomes an
+     edge sliver rather than something the text has to sit on top of */
+  .helix-layer{right:-92px !important;width:220px;opacity:.24;}
+  .lede{font-size:17px;}
+  .row-title{font-size:22px;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{transition:none !important;animation:none !important;}
 }
