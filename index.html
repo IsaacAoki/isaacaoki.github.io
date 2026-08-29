@@ -49,19 +49,25 @@
     <div class="band-label">
       <p class="num num-a">01</p>
       <h2>Research Interests</h2>
-      <p class="note">My research focused on identifying novel therapeutic targets in childhood cancers and developing novel methods in diagnosing haematological disorders.</p>
     </div>
-    <div class="cards">
-      <a class="card card-a" href="#contact">
-        <span class="meta">MScR Thesis · 2023</span>
-        <span class="card-title">PRMT5 inhibition in Wilms&rsquo; tumour</span>
-        <span class="card-desc">Assay design, protein and RNA quantification, dose&ndash;response analysis. University of Bristol.</span>
-      </a>
-      <a class="card card-a" href="#contact">
-        <span class="meta">BSc dissertation · first class</span>
-        <span class="card-title">Literature synthesis</span>
-        <span class="card-desc">Weighing up an evidence base that doesn&rsquo;t agree with itself.</span>
-      </a>
+    <div class="band-body">
+      <p class="band-intro">My research focused on identifying novel therapeutic targets in childhood cancers and developing novel methods in diagnosing haematological disorders.</p>
+      <div class="cards">
+
+        <button class="card card-a card-open" type="button" data-dialog="thesis">
+          <span class="meta">MScR Thesis &middot; 2023</span>
+          <span class="card-title">PRMT5 inhibition in Wilms&rsquo; tumour</span>
+          <span class="card-desc">Assay design, protein and RNA quantification, dose&ndash;response analysis. University of Bristol.</span>
+          <span class="card-action">Read the abstract &rarr;</span>
+        </button>
+
+        <div class="card">
+          <span class="meta">BSc dissertation &middot; first class</span>
+          <span class="card-title">Literature synthesis</span>
+          <span class="card-desc">Weighing up an evidence base that doesn&rsquo;t agree with itself.</span>
+        </div>
+
+      </div>
     </div>
   </div>
   </section>
@@ -124,6 +130,29 @@
   <a class="btn btn-ink" href="resume.pdf">Download CV</a>
   </div>
 </footer>
+
+<!-- ============================================================
+     Thesis abstract. Opens from the MScR card in Research.
+     REPLACE the paragraphs inside <div class="modal-body"> with
+     your real abstract. Keep each paragraph in its own <p>...</p>.
+     ============================================================ -->
+<dialog class="modal" id="thesis" aria-labelledby="thesis-title">
+  <button class="modal-close" type="button" aria-label="Close" data-close>&times;</button>
+
+  <p class="meta">MScR Thesis &middot; 2023 &middot; University of Bristol</p>
+  <h2 class="modal-title" id="thesis-title">PRMT5 inhibition in Wilms&rsquo; tumour</h2>
+
+  <div class="modal-body">
+    <p>[Paste the first paragraph of your abstract here.]</p>
+    <p>[And the rest here. Delete this second paragraph if the abstract is only one.]</p>
+  </div>
+
+  <p class="modal-foot">
+    The full thesis isn&rsquo;t published here. Email me at
+    <a href="mailto:isaacaokilsx@gmail.com?subject=MScR%20thesis">isaacaokilsx@gmail.com</a>
+    and I&rsquo;ll send you a copy.
+  </p>
+</dialog>
 
 <script src="script.js"></script>
 </body>

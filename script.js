@@ -226,3 +226,37 @@
     document.hidden ? stop() : start();
   });
 })();
+
+/* ============================================================
+   Dialogs. A [data-dialog="id"] button opens <dialog id="id">.
+   Esc closes it for free; this adds the close button and a
+   click on the backdrop.
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  document.querySelectorAll('[data-dialog]').forEach(function (trigger) {
+    var dlg = document.getElementById(trigger.dataset.dialog);
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+
+    trigger.addEventListener('click', function () { dlg.showModal(); });
+  });
+
+  document.querySelectorAll('dialog').forEach(function (dlg) {
+    // The dialog element's own box is the backdrop area as far as
+    // click targets go — a click that lands on it, not on anything
+    // inside, is a click outside the content.
+    dlg.addEventListener('click', function (e) {
+      if (e.target === dlg) dlg.close();
+    });
+    dlg.querySelectorAll('[data-close]').forEach(function (btn) {
+      btn.addEventListener('click', function () { dlg.close(); });
+    });
+    // Esc closes a modal <dialog> natively; this makes it explicit
+    // so the behaviour doesn't depend on the browser.
+    dlg.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') dlg.close();
+    });
+  });
+})();
