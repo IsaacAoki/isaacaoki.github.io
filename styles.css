@@ -262,7 +262,21 @@ h1{
 .row:hover{color:var(--ink);text-decoration:none;}
 .row-b:hover{border-color:var(--b);}
 
-.row-body{display:flex;flex-direction:column;gap:6px;max-width:560px;}
+.row-static{cursor:default;}
+.row-body{display:flex;flex-direction:column;gap:6px;max-width:600px;}
+
+/* the live bylines, sitting under the row that frames them */
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.pill{
+  font-size:13.5px;
+  color:var(--ink);
+  background:var(--paper);
+  border:1px solid var(--line);
+  padding:8px 15px;
+  border-radius:999px;
+  transition:border-color .18s ease, color .18s ease;
+}
+.pill:hover{color:var(--b);border-color:var(--b);text-decoration:none;}
 .row-title{font-family:var(--serif);font-size:26px;line-height:1.25;}
 .row-desc{font-size:15px;line-height:1.65;color:var(--muted);}
 .row-tag{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;}
