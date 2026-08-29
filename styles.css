@@ -262,6 +262,18 @@ h1{
 .row:hover{color:var(--ink);text-decoration:none;}
 .row-b:hover{border-color:var(--b);}
 
+/* the row that opens a piece of writing */
+.row-open{
+  font:inherit;
+  text-align:left;
+  width:100%;
+  cursor:pointer;
+  appearance:none;
+}
+.row-open .row-tag{transition:transform .18s ease;}
+.row-open:hover .row-tag,
+.row-open:focus-visible .row-tag{transform:translateX(3px);}
+
 .row-static{cursor:default;}
 .row-body{display:flex;flex-direction:column;gap:6px;max-width:600px;}
 
@@ -405,6 +417,43 @@ html:has(dialog[open]){overflow:hidden;}
   text-wrap:pretty;
 }
 .modal-body p:last-child{margin-bottom:0;}
+
+.modal-body sup{
+  font-family:var(--mono);
+  font-size:10px;
+  color:var(--a);
+  vertical-align:super;
+  line-height:0;
+  margin-left:1px;
+}
+
+.modal-subhead{
+  margin:34px 0 14px;
+  padding-top:26px;
+  border-top:1px solid var(--line);
+  font-family:var(--mono);
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.modal-refs{
+  margin:0;
+  padding-left:20px;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  font-size:13.5px;
+  line-height:1.55;
+  color:var(--muted);
+}
+.modal-refs::marker{color:var(--muted);}
+.modal-refs li{padding-left:4px;}
+.modal-refs a{color:var(--muted);}
+.modal-refs a:hover{color:var(--b);}
+.modal-refs em{font-family:var(--mono);font-style:normal;font-size:12px;}
 
 .modal-foot{
   flex:0 0 auto;

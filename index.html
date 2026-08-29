@@ -81,6 +81,14 @@
       <p class="note">Published work, mostly for people who aren&rsquo;t clinicians.</p>
     </div>
     <div class="rows">
+      <button class="row row-b row-open" type="button" data-dialog="als">
+        <span class="row-body">
+          <span class="row-title">If you could cure any disease, which would you choose?</span>
+          <span class="row-desc">A written task for Ogilvy Health, on ALS &mdash; the gap between what we can describe, what we can explain, and what we can treat.</span>
+        </span>
+        <span class="row-tag tag-b">Read &rarr;</span>
+      </button>
+
       <div class="row row-static">
         <span class="row-body">
           <span class="row-title">Three published health articles</span>
@@ -93,13 +101,6 @@
         </span>
         <span class="row-tag tag-b">3 live</span>
       </div>
-      <a class="row row-b" href="#contact">
-        <span class="row-body">
-          <span class="row-title">Prostate cancer, Malaysia</span>
-          <span class="row-desc">Awareness materials for NCSM, plus the public attitudes survey they came out of.</span>
-        </span>
-        <span class="row-tag">2 items</span>
-      </a>
     </div>
   </div>
   </section>
@@ -188,6 +189,55 @@
     The full dissertation isn&rsquo;t published here. Email me at
     <a href="mailto:isaacaokilsx@gmail.com?subject=BSc%20dissertation">isaacaokilsx@gmail.com</a>
     and I&rsquo;ll send you a copy.
+  </footer>
+
+</dialog>
+
+<!-- Ogilvy Health writing task. Opens from the first Writing row. -->
+<dialog class="modal" id="als" aria-labelledby="als-title">
+
+  <header class="modal-head">
+    <div class="modal-head-text">
+      <p class="meta">Written task &middot; Ogilvy Health</p>
+      <h2 class="modal-title" id="als-title">If you could cure any disease, which disease would you choose, and why?</h2>
+    </div>
+    <button class="modal-close" type="button" aria-label="Close" data-close>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </header>
+
+  <div class="modal-body">
+    <p>You&rsquo;re walking home from the grocery store. Same route, same playlist in your ear. Then your foot catches on a pavement you&rsquo;ve walked a thousand times and you&rsquo;re on the ground. You pick yourself up and keep walking. In the shower that night, a bruise blooms across the right side of your face. Your hands are fine. You brush it off. The next morning, you reach for the salt and your fingers close on nothing. You try again. This time you grip it. Without deciding to, you let go. The container hits the floor. You go on with your day.</p>
+
+    <p>Over the next few weeks, the incidents become harder to ignore. Mugs slip from your hands. You stumble more often. You begin to feel unfamiliar in your own body. One Sunday evening, you count: six broken mugs and three falls in a week. You decide to write it all down. By the time you finish, you notice your handwriting has changed, the letters slant and no longer sit on the lines. You flip back through older shopping lists. The difference is unmistakable.</p>
+
+    <p>What follows is months of appointments. A neurologist examines you limb by limb. Then an MRI. Then an EMG. Then more. Each test comes back telling you what it isn&rsquo;t, never what it is. Eventually, you sit in a neurologist&rsquo;s office. Amyotrophic lateral sclerosis. ALS. It is a disease of the motor neurons, the nerve cells that carry signals from brain to muscle. The disease is progressive. Over time, you will lose control of your body. Your memory, your awareness, your sense of who you are will remain fully intact throughout. The doctor says these things kindly. They are the careful clinical words for what, in simpler terms, has only one meaning: you will be present for every step of your decline.</p>
+
+    <p>I do not have ALS, and I have never lost someone close to me to it. What draws me to this disease is the gap between what we can describe, what we can explain, and what we can treat. We have studied ALS for over a century, raised hundreds of millions of dollars to fight, and still cannot diagnose it early or meaningfully treat it. In the UK alone, around 5,000 people are living with ALS, with 1,700 newly diagnosed each year.<sup>1</sup> Recent modelling from King&rsquo;s College London projects that figure will rise to more than 2,600 by 2116, not because ALS is becoming more common, but because we are growing older.<sup>1</sup></p>
+
+    <p>Part of what makes ALS so hard to catch is the variability of the disease. Symptoms can begin anywhere in the body. In about 70% of cases, the first signs appear in the limb muscles: a hand that begins dropping objects, or a foot that trips a little too often. The remaining 25&ndash;30% present with a bulbar onset: a word that comes out slurred at dinner, choking at meals, a voice that has begun to sound hoarse without explanation.<sup>2,3</sup> In some patients, ALS reaches beyond motor function into behavioural changes, language problems, and impairment in executive function.<sup>4</sup> Around 15% of cases, these manifestations are severe enough to meet the clinical criteria for frontotemporal dementia (FTD).<sup>4</sup></p>
+
+    <p>ALS and FTD share a common driver, the C9orf72 repeat expansion, and the same TDP-43 protein aggregates in many cases.<sup>2,4</sup> In most patients, the downstream cascade plays out. Whether triggered by a known genetic mutation or an unknown sporadic cause, the protein TDP-43 mislocalises and aggregates inside motor neurons. This disrupts glutamate regulation, causing the neurotransmitter to accumulate at the synapse to toxic levels, driving excitotoxic motor neuron death.<sup>2</sup> The dropping, the falling, the slanting letters follow.</p>
+
+    <p>This discovery underpins the worldwide approval for Riluzole, a first-line disease modifying therapy that blocks glutamatergic transmission.<sup>5</sup> In randomised trials, Riluzole extends survival by 2&ndash;6 months, however, real-world data suggest the benefit may be greater.<sup>2,5,6</sup> Other approved treatments include Edaravone, which may slow functional decline in a selected subgroup of patients, and Tofersen, the first gene-directed therapy that targets SOD1 protein production but is indicated only for patients carrying a SOD1 mutation.<sup>2,7</sup></p>
+
+    <p>Curing ALS would mean more than extending survival; it would restore life, and the freedom to live without fearing what comes next. A disease this heterogeneous cannot be solved without unlocking how the brain truly works. Solving ALS would be proof that we can intervene in neurological disease, laying the foundation for tackling diseases like FTD, Parkinson&rsquo;s, and Alzheimer&rsquo;s.</p>
+
+    <h3 class="modal-subhead">References</h3>
+    <ol class="modal-refs">
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6567553/" target="_blank" rel="noopener">Epidemiology of amyotrophic lateral sclerosis. <em>PMC6567553</em></a></li>
+      <li><a href="https://onlinelibrary.wiley.com/doi/10.1111/ene.14393" target="_blank" rel="noopener">European Journal of Neurology, <em>10.1111/ene.14393</em></a></li>
+      <li><a href="https://www.als.net/news/what-is-bulbar-onset-als/" target="_blank" rel="noopener">What is bulbar-onset ALS? <em>ALS.net</em></a></li>
+      <li><a href="https://www.tandfonline.com/doi/10.1080/21678421.2023.2270705" target="_blank" rel="noopener">Amyotrophic Lateral Sclerosis and Frontotemporal Degeneration, <em>2023.2270705</em></a></li>
+      <li><a href="https://www.tandfonline.com/doi/full/10.1080/21678421.2024.2375330" target="_blank" rel="noopener">Amyotrophic Lateral Sclerosis and Frontotemporal Degeneration, <em>2024.2375330</em></a></li>
+      <li><a href="https://www.tandfonline.com/doi/10.2217/nmt-2020-0033" target="_blank" rel="noopener">Neurodegenerative Disease Management, <em>nmt-2020-0033</em></a></li>
+      <li><a href="https://www.tandfonline.com/doi/full/10.1080/17582024.2024.2402216" target="_blank" rel="noopener">Neurodegenerative Disease Management, <em>2024.2402216</em></a></li>
+    </ol>
+  </div>
+
+  <footer class="modal-foot">
+    Written as a task for Ogilvy Health. Want something like this?
+    <a href="mailto:isaacaokilsx@gmail.com?subject=Commission">isaacaokilsx@gmail.com</a>
   </footer>
 
 </dialog>
