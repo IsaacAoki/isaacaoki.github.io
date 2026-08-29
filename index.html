@@ -57,7 +57,7 @@
         <button class="card card-a card-open" type="button" data-dialog="thesis">
           <span class="meta">MScR Thesis &middot; 2023</span>
           <span class="card-title">PRMT5 inhibition in Wilms&rsquo; tumour</span>
-          <span class="card-desc">Assay design, protein and RNA quantification, dose&ndash;response analysis. University of Bristol.</span>
+          <span class="card-desc">siRNA depletion and small-molecule inhibition of PRMT5 across two Wilms&rsquo; tumour cell lines. Paired with a BCL2 inhibitor, it induced apoptosis synergistically.</span>
           <span class="card-action">Read the abstract &rarr;</span>
         </button>
 
@@ -133,22 +133,29 @@
 
 <!-- Thesis abstract. Opens from the MScR card in Research. -->
 <dialog class="modal" id="thesis" aria-labelledby="thesis-title">
-  <button class="modal-close" type="button" aria-label="Close" data-close>&times;</button>
 
-  <p class="meta">MScR Thesis &middot; 2023 &middot; University of Bristol</p>
-  <h2 class="modal-title" id="thesis-title">PRMT5 inhibition in Wilms&rsquo; tumour</h2>
+  <header class="modal-head">
+    <div class="modal-head-text">
+      <p class="meta">MScR Thesis &middot; 2023 &middot; University of Bristol</p>
+      <h2 class="modal-title" id="thesis-title">PRMT5 inhibition in Wilms&rsquo; tumour</h2>
+    </div>
+    <button class="modal-close" type="button" aria-label="Close" data-close>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </header>
 
   <div class="modal-body">
     <p>Wilms&rsquo; Tumour is the most common paediatric renal malignancy that accounts for 85% of all paediatric renal tumours. MYCN has been documented to be overexpressed in Wilms&rsquo; Tumour and mutations such as copy number gain are associated with a high relapse rate in high-risk blastemal Wilms&rsquo; Tumour. However, due to MYCN&rsquo;s undruggable structure and its complex protein-protein dynamics, attempts to target MYCN have been a challenge. Here, both depletion via small interfering RNA and inhibition via small molecule inhibitor of protein arginine methyltransferase 5 (PRMT5) led to impaired growth and increased apoptosis in Wilms&rsquo; Tumour cell lines, WiT49 and 17.94. Inhibition of PRMT5 activity using GSK591 has also resulted in decreased MYCN protein and transcript levels. Additionally, PRMT5 inhibition has also led to a reduction in MYCN targets such as EZH2 at the protein and RNA levels in both WiT49 and 17.94 cells. These results suggest that PRMT5 may be able to modulate the expression of both MYCN and MYCN targets, indicating that a PRMT5/MYCN/EZH2 oncogenic axis might contribute to Wilms&rsquo; Tumour.</p>
-    <p>Furthermore, quantitative gene transcription analysis and immunoblotting of the WiT49 cell line suggested that inhibition of PRMT5 using GSK591 has also led to the re-expression of anti-apoptotic protein BCL2. This was not observed with the 17.94 cell line, suggesting that GSK591 may have variable effects depending on the cell lines used. Interestingly, a combination treatment targeting both PRMT5 and BCL2 have worked synergistically to induce apoptosis in both Wilms&rsquo; Tumour cell lines. This finding is promising as it may serve as a novel approach in treating Wilms&rsquo; Tumour that is heterogenous in nature.</p>
+    <p>Furthermore, quantitative gene transcription analysis and immunoblotting of the WiT49 cell line suggested that inhibition of PRMT5 using GSK591 has also led to the re-expression of anti-apoptotic protein BCL2. This was not observed with the 17.94 cell line, suggesting that GSK591 may have variable effects depending on the cell lines used. Interestingly, a combination treatment targeting both PRMT5 and BCL2 have worked synergistically to induce apoptosis in both Wilms&rsquo; Tumour cell lines. This finding is promising as it may serve as a novel approach in treating Wilms&rsquo; Tumour that is heterogeneous in nature.</p>
     <p>Together, this study has shown that PRMT5 may be a therapeutic target in Wilms&rsquo; Tumour and a combination treatment targeting both PRMT5 and BCL2 protein using small molecule inhibitors could represent a promising treatment method for Wilms&rsquo; Tumour.</p>
   </div>
 
-  <p class="modal-foot">
+  <footer class="modal-foot">
     The full thesis isn&rsquo;t published here. Email me at
     <a href="mailto:isaacaokilsx@gmail.com?subject=MScR%20thesis">isaacaokilsx@gmail.com</a>
     and I&rsquo;ll send you a copy.
-  </p>
+  </footer>
+
 </dialog>
 
 <script src="script.js"></script>
