@@ -42,9 +42,14 @@ detail arrives at 32px, which is what a retina display shows anyway.
 They're PNGs rather than SVG because an SVG favicon with live text renders in whatever
 serif the *viewer* has installed, so the monogram would differ from machine to machine.
 
-To redraw them, the generator is in the commit that added them (`git log -- favicon-32.png`)
-— a short PIL script that stamps discs along the strand path, so the strokes get round ends
-with no joint artefacts, and supersamples 10× before downscaling.
+To redraw them:
+
+```bash
+python3 tools/favicon.py
+```
+
+That overwrites all three from source. Colours and geometry are constants at the top of
+the script. It needs Pillow (`pip install pillow`) and Georgia, which ships with macOS.
 
 Safari caches favicons far longer than pages. A private window shows the current one.
 
@@ -77,6 +82,7 @@ when the tab is hidden. Under `prefers-reduced-motion` it draws one frame and ne
 | `script.js` | The helix renderer, then the dialog open/close |
 | `resume.pdf` | The CV both "Download CV" buttons point at |
 | `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` | The tab icon, at three sizes |
+| `tools/favicon.py` | Redraws the three icon files. Not served. |
 | `design/` | Artboards from the earlier "Unwinding" direction. Not served, not current. |
 
 ## Editing the content
