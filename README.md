@@ -31,6 +31,7 @@ The artwork **differs by size**, which is deliberate rather than an oversight:
 
 | File | Size | Artwork |
 | --- | --- | --- |
+| `favicon.ico` | 16, 32, 48 | All three in one file |
 | `favicon-16.png` | 16px | Helix alone |
 | `favicon-32.png` | 32px | Helix with the letters |
 | `apple-touch-icon.png` | 180px | Full mark, for the iOS home screen |
@@ -39,7 +40,12 @@ A serif `I` and `A` cannot survive inside a 16-pixel tile that also holds two cr
 strands; they turn into two grey smudges and make the mark less legible, not more. So the
 detail arrives at 32px, which is what a retina display shows anyway.
 
-They're PNGs rather than SVG because an SVG favicon with live text renders in whatever
+`favicon.ico` is not optional. Safari requests `/favicon.ico` before it reads the `<link>`
+tags, and when that 404s it shows its own grey placeholder and caches *that* — so the PNGs
+never get a look in. The .ico carries the same per-size artwork, hand-built rather than
+saved through Pillow, whose ICO writer downsamples a single source image for every size.
+
+The PNGs are PNGs rather than SVG because an SVG favicon with live text renders in whatever
 serif the *viewer* has installed, so the monogram would differ from machine to machine.
 
 To redraw them:
@@ -81,7 +87,7 @@ when the tab is hidden. Under `prefers-reduced-motion` it draws one frame and ne
 | `styles.css` | Tokens at the top (`:root`), then hero, bands, dialog, footer, narrow screens |
 | `script.js` | The helix renderer, then the dialog open/close |
 | `resume.pdf` | The CV both "Download CV" buttons point at |
-| `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` | The tab icon, at three sizes |
+| `favicon.ico`, `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` | The tab icon |
 | `tools/favicon.py` | Redraws the three icon files. Not served. |
 
 ## Editing the content

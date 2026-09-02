@@ -23,8 +23,10 @@ Two things are load-bearing:
     ends for free. Everything is drawn 10x oversized and downsampled.
 """
 
+import io
 import math
 import os
+import struct
 from PIL import Image, ImageDraw, ImageFont
 
 # Warmed off the site palette. Cosy is a temperature, not a brightness:
@@ -85,6 +87,34 @@ def render(size, letters=True):
     return img.resize((size, size), Image.LANCZOS)
 
 
+def write_ico(path, images):
+    """
+    Hand-rolled multi-resolution .ico, because Pillow's ICO writer
+    downsamples one source image for every size - which would put the
+    lettered 32px artwork into the 16px slot, the exact thing the
+    per-size artwork exists to avoid. An .ico is just a small header
+    plus embedded PNGs, so building it directly is simpler than
+    fighting the encoder.
+    """
+    blobs = []
+    for im in images:
+        buf = io.BytesIO()
+        im.save(buf, format="PNG")
+        blobs.append(buf.getvalue())
+
+    offset = 6 + 16 * len(blobs)
+    header = struct.pack("<HHH", 0, 1, len(blobs))
+    entries = b""
+    for im, blob in zip(images, blobs):
+        w = im.width if im.width < 256 else 0
+        h = im.height if im.height < 256 else 0
+        entries += struct.pack("<BBBBHHII", w, h, 0, 0, 1, 32, len(blob), offset)
+        offset += len(blob)
+
+    with open(path, "wb") as f:
+        f.write(header + entries + b"".join(blobs))
+
+
 if __name__ == "__main__":
     for name, size, letters in (
         ("favicon-16.png", 16, False),
@@ -94,3 +124,12 @@ if __name__ == "__main__":
         path = os.path.join(ROOT, name)
         render(size, letters).save(path)
         print("wrote", name)
+
+    # Safari asks for /favicon.ico before it reads the <link> tags, and
+    # handles the 404 badly - it falls back to the placeholder glyph and
+    # caches that. So ship a real one.
+    write_ico(
+        os.path.join(ROOT, "favicon.ico"),
+        [render(16, letters=False), render(32), render(48)],
+    )
+    print("wrote favicon.ico")
