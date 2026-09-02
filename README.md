@@ -77,9 +77,9 @@ crowding the helix.
 
 ```html
 <div class="card">
-  <span class="meta">BSc dissertation · first class</span>
-  <span class="card-title">Literature synthesis</span>
-  <span class="card-desc">Weighing up an evidence base that doesn't agree with itself.</span>
+  <span class="meta">BSc dissertation · 2020</span>
+  <span class="card-title">Thrombin inhibition by D-dimer</span>
+  <span class="card-desc">Testing whether a benchtop coagulation analyser could…</span>
 </div>
 ```
 
@@ -93,17 +93,22 @@ something. That's deliberate: only the card that leads somewhere looks like it d
 ### A writing row
 
 ```html
-<a class="row row-b" href="#contact">
+<button class="row row-b row-open" type="button" data-dialog="als">
   <span class="row-body">
-    <span class="row-title">Three published health articles</span>
-    <span class="row-desc">Klarity Health. Written for someone who has just typed…</span>
+    <span class="row-title">If you could cure any disease, which would you choose?</span>
+    <span class="row-desc">A written task for Ogilvy Health, on ALS…</span>
   </span>
-  <span class="row-tag tag-b">Live →</span>
-</a>
+  <span class="row-tag tag-b">Read →</span>
+</button>
 ```
 
-Swap `href="#contact"` for the real URL once the articles are linkable. `row-tag` is the
-small label on the right — `tag-b` colours it rust, plain `row-tag` leaves it grey.
+A row that opens a dialog is a `<button>` with `data-dialog`; a row that goes somewhere
+else is an `<a href="...">`. `row-tag` is the small label on the right — `tag-b` colours
+it rust, plain `row-tag` leaves it grey.
+
+The Klarity row is neither: it's a plain `<div class="row row-static">` whose three
+articles are `<a class="pill">` links inside it, because a row can't be a link and
+contain links.
 
 ### The thesis abstract
 
