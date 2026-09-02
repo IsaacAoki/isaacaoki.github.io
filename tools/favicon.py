@@ -23,7 +23,6 @@ Two things are load-bearing:
     ends for free. Everything is drawn 10x oversized and downsampled.
 """
 
-import io
 import math
 import os
 import struct
@@ -89,21 +88,49 @@ def render(size, letters=True):
 
 def write_ico(path, images):
     """
-    Hand-rolled multi-resolution .ico, because Pillow's ICO writer
-    downsamples one source image for every size - which would put the
-    lettered 32px artwork into the 16px slot, the exact thing the
-    per-size artwork exists to avoid. An .ico is just a small header
-    plus embedded PNGs, so building it directly is simpler than
-    fighting the encoder.
+    Multi-resolution .ico, written by hand for two reasons.
+
+    Pillow's ICO writer downsamples one source image for every size,
+    which would put the lettered 32px artwork into the 16px slot - the
+    exact thing the per-size artwork exists to avoid.
+
+    And the entries must be classic BMP/DIB, not embedded PNGs. An .ico
+    may legally hold either, and Chromium reads both, but WebKit's
+    decoder does not handle PNG-compressed entries - so a PNG-in-ICO
+    favicon loads everywhere except Safari, which then falls back to its
+    grey first-letter placeholder.
+
+    A DIB entry is a BITMAPINFOHEADER whose height is doubled to cover
+    the colour data plus a 1-bit mask, then bottom-up BGRA rows, then
+    that mask (all zeroes here, since the alpha channel carries the
+    transparency).
     """
     blobs = []
     for im in images:
-        buf = io.BytesIO()
-        im.save(buf, format="PNG")
-        blobs.append(buf.getvalue())
+        im = im.convert("RGBA")
+        w, h = im.size
+        px = im.load()
+
+        rows = []
+        for y in range(h - 1, -1, -1):          # DIB rows run bottom-up
+            row = bytearray()
+            for x in range(w):
+                r, g, b, a = px[x, y]
+                row += bytes((b, g, r, a))      # BGRA, not RGBA
+            rows.append(bytes(row))
+        xor = b"".join(rows)
+
+        mask_stride = ((w + 31) // 32) * 4      # 1bpp, padded to 4 bytes
+        and_mask = b"\x00" * (mask_stride * h)
+
+        header = struct.pack(
+            "<IiiHHIIiiII",
+            40, w, h * 2, 1, 32, 0, len(xor) + len(and_mask), 0, 0, 0, 0,
+        )
+        blobs.append(header + xor + and_mask)
 
     offset = 6 + 16 * len(blobs)
-    header = struct.pack("<HHH", 0, 1, len(blobs))
+    out = struct.pack("<HHH", 0, 1, len(blobs))
     entries = b""
     for im, blob in zip(images, blobs):
         w = im.width if im.width < 256 else 0
@@ -112,7 +139,7 @@ def write_ico(path, images):
         offset += len(blob)
 
     with open(path, "wb") as f:
-        f.write(header + entries + b"".join(blobs))
+        f.write(out + entries + b"".join(blobs))
 
 
 if __name__ == "__main__":
@@ -126,8 +153,8 @@ if __name__ == "__main__":
         print("wrote", name)
 
     # Safari asks for /favicon.ico before it reads the <link> tags, and
-    # handles the 404 badly - it falls back to the placeholder glyph and
-    # caches that. So ship a real one.
+    # on a 404 falls back to its grey first-letter placeholder. So ship
+    # a real one - in BMP form, see write_ico.
     write_ico(
         os.path.join(ROOT, "favicon.ico"),
         [render(16, letters=False), render(32), render(48)],
