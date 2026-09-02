@@ -31,19 +31,30 @@ The artwork **differs by size**, which is deliberate rather than an oversight:
 
 | File | Size | Artwork |
 | --- | --- | --- |
-| `favicon.ico` | 16, 32, 48 | All three in one file |
-| `favicon-16.png` | 16px | Helix alone |
-| `favicon-32.png` | 32px | Helix with the letters |
-| `apple-touch-icon.png` | 180px | Full mark, for the iOS home screen |
+| `icons/mark.ico` | 16, 32, 48 | All three in one file |
+| `icons/mark-16.png` | 16px | Helix alone |
+| `icons/mark-32.png` | 32px | Helix with the letters |
+| `icons/mark-180.png` | 180px | Full mark, for the iOS home screen |
+| `favicon.ico` | 16, 32, 48 | Same as `mark.ico`; browsers ask for this path whether or not the page declares an icon |
 
 A serif `I` and `A` cannot survive inside a 16-pixel tile that also holds two crossing
 strands; they turn into two grey smudges and make the mark less legible, not more. So the
 detail arrives at 32px, which is what a retina display shows anyway.
 
-`favicon.ico` is not optional. Safari requests `/favicon.ico` before it reads the `<link>`
-tags, and when that 404s it shows its own grey placeholder and caches *that* — so the PNGs
-never get a look in. The .ico carries the same per-size artwork, hand-built rather than
-saved through Pillow, whose ICO writer downsamples a single source image for every size.
+Three things about this were learned the hard way, and are worth not re-discovering:
+
+**A root `favicon.ico` is not optional.** Browsers request `/favicon.ico` before reading the
+`<link>` tags. When that 404s, Safari shows its grey first-letter placeholder.
+
+**The .ico entries must be BMP, not PNG.** An .ico may legally hold either and Chromium
+reads both, but WebKit's decoder does not handle PNG-compressed entries — so a PNG-in-ICO
+favicon works everywhere except Safari. `write_ico()` in the generator emits BMP.
+
+**The icons live under `icons/` deliberately.** Safari caches "this site has no icon"
+against the icon *URL*, and once that entry exists it will not re-fetch the same URL — no
+amount of reloading, and not a private window either, since Safari shares the favicon
+database with private browsing. Moving to a path it has never seen is the way out. If it
+ever gets stuck again, rename the folder rather than debugging the file.
 
 The PNGs are PNGs rather than SVG because an SVG favicon with live text renders in whatever
 serif the *viewer* has installed, so the monogram would differ from machine to machine.
@@ -87,7 +98,7 @@ when the tab is hidden. Under `prefers-reduced-motion` it draws one frame and ne
 | `styles.css` | Tokens at the top (`:root`), then hero, bands, dialog, footer, narrow screens |
 | `script.js` | The helix renderer, then the dialog open/close |
 | `resume.pdf` | The CV both "Download CV" buttons point at |
-| `favicon.ico`, `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` | The tab icon |
+| `favicon.ico`, `icons/` | The tab icon. See **The favicon**. |
 | `tools/favicon.py` | Redraws the three icon files. Not served. |
 
 ## Editing the content

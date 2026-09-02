@@ -143,20 +143,29 @@ def write_ico(path, images):
 
 
 if __name__ == "__main__":
+    # The icons live under icons/ rather than at the root. That is not
+    # tidiness: Safari caches "this site has no icon" against the icon
+    # URL, and once poisoned - by an early deploy where /favicon.ico
+    # genuinely 404'd - it will not re-fetch the same URL. Serving from
+    # a path it has never seen is the only reliable way out.
+    os.makedirs(os.path.join(ROOT, "icons"), exist_ok=True)
+
     for name, size, letters in (
-        ("favicon-16.png", 16, False),
-        ("favicon-32.png", 32, True),
-        ("apple-touch-icon.png", 180, True),
+        ("icons/mark-16.png", 16, False),
+        ("icons/mark-32.png", 32, True),
+        ("icons/mark-180.png", 180, True),
     ):
-        path = os.path.join(ROOT, name)
-        render(size, letters).save(path)
+        render(size, letters).save(os.path.join(ROOT, name))
         print("wrote", name)
 
     # Safari asks for /favicon.ico before it reads the <link> tags, and
     # on a 404 falls back to its grey first-letter placeholder. So ship
     # a real one - in BMP form, see write_ico.
-    write_ico(
-        os.path.join(ROOT, "favicon.ico"),
-        [render(16, letters=False), render(32), render(48)],
-    )
+    entries = [render(16, letters=False), render(32), render(48)]
+    write_ico(os.path.join(ROOT, "icons", "mark.ico"), entries)
+    print("wrote icons/mark.ico")
+
+    # Also at the root, because browsers request /favicon.ico whether or
+    # not the page declares one.
+    write_ico(os.path.join(ROOT, "favicon.ico"), entries)
     print("wrote favicon.ico")
