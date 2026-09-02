@@ -21,6 +21,33 @@ Type is Newsreader (display), Public Sans (body) and IBM Plex Mono (labels). Col
 CSS custom properties at the top of `styles.css`, with a full dark palette below them;
 the page follows whatever the reader's system is set to.
 
+## The favicon
+
+The same helix, with `I` and `A` sitting in the two openings the crossing makes. Colours
+are warmed off the site palette — a brown-black ground rather than the cool near-black,
+dusty blue and clay in place of the full teal and rust, cream letters.
+
+The artwork **differs by size**, which is deliberate rather than an oversight:
+
+| File | Size | Artwork |
+| --- | --- | --- |
+| `favicon-16.png` | 16px | Helix alone |
+| `favicon-32.png` | 32px | Helix with the letters |
+| `apple-touch-icon.png` | 180px | Full mark, for the iOS home screen |
+
+A serif `I` and `A` cannot survive inside a 16-pixel tile that also holds two crossing
+strands; they turn into two grey smudges and make the mark less legible, not more. So the
+detail arrives at 32px, which is what a retina display shows anyway.
+
+They're PNGs rather than SVG because an SVG favicon with live text renders in whatever
+serif the *viewer* has installed, so the monogram would differ from machine to machine.
+
+To redraw them, the generator is in the commit that added them (`git log -- favicon-32.png`)
+— a short PIL script that stamps discs along the strand path, so the strokes get round ends
+with no joint artefacts, and supersamples 10× before downscaling.
+
+Safari caches favicons far longer than pages. A private window shows the current one.
+
 ## How the helix works
 
 Worth reading before you touch `script.js`.
@@ -49,6 +76,7 @@ when the tab is hidden. Under `prefers-reduced-motion` it draws one frame and ne
 | `styles.css` | Tokens at the top (`:root`), then hero, bands, dialog, footer, narrow screens |
 | `script.js` | The helix renderer, then the dialog open/close |
 | `resume.pdf` | The CV both "Download CV" buttons point at |
+| `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` | The tab icon, at three sizes |
 | `design/` | Artboards from the earlier "Unwinding" direction. Not served, not current. |
 
 ## Editing the content
