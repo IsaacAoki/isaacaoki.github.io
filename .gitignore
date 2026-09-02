@@ -1,3 +1,5 @@
-# Generated design-canvas bundle — rebuildable from the .dc.html artboards,
-# and published at the artifact link in README.md
-design/helix-site-schematics.html
+# Local leftover from the first design direction. Untracked because it's
+# 2.4 MB, and kept because the artboards it was generated from are gone,
+# so this is the only surviving copy. Delete it whenever you like:
+#   rm -rf design
+design/

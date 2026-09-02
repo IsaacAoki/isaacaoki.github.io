@@ -83,7 +83,6 @@ when the tab is hidden. Under `prefers-reduced-motion` it draws one frame and ne
 | `resume.pdf` | The CV both "Download CV" buttons point at |
 | `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png` | The tab icon, at three sizes |
 | `tools/favicon.py` | Redraws the three icon files. Not served. |
-| `design/` | Artboards from the earlier "Unwinding" direction. Not served, not current. |
 
 ## Editing the content
 
