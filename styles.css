@@ -294,31 +294,73 @@ h1{
 .row-tag{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;}
 .tag-b{color:var(--b);}
 
-/* before / after */
+/* reading-level slider */
 
-.compare{
-  display:grid;
-  grid-template-columns:1fr 1fr;
+.levels{display:flex;flex-direction:column;gap:26px;}
+
+.level-panel{
+  background:var(--sheet);
   border:1px solid var(--line);
   border-radius:5px;
-  overflow:hidden;
+  padding:32px 34px;
+  min-height:196px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
-.pane{padding:30px;display:flex;flex-direction:column;gap:12px;}
-.pane-before{background:var(--sheet);border-right:1px solid var(--line);}
-.pane-after{background:var(--a-soft);}
 
-.pane-label{
+.level-name{
   margin:0;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--a);
+}
+
+.level-text{
+  margin:0;
+  font-family:var(--serif);
+  font-size:21px;
+  line-height:1.62;
+  color:var(--ink);
+  text-wrap:pretty;
+}
+
+/* each word fades up in turn, so the rewrite reads as a rewrite
+   rather than a swap. Killed by the reduced-motion rule below. */
+.level-text .w{display:inline-block;animation:wordIn .34s both cubic-bezier(.2,.7,.3,1);}
+@keyframes wordIn{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:none;}}
+
+.level-control{display:flex;flex-direction:column;gap:10px;}
+
+.level-slider{
+  width:100%;
+  margin:0;
+  accent-color:var(--a);
+  cursor:pointer;
+}
+
+.level-stops{
+  display:flex;
+  justify-content:space-between;
   font-family:var(--mono);
   font-size:10px;
   letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--muted);
 }
-.pane-after .pane-label{color:var(--a);}
+.level-stops span{flex:1;text-align:center;transition:color .18s ease;}
+.level-stops span:first-child{text-align:left;}
+.level-stops span:last-child{text-align:right;}
+.level-stops span.on{color:var(--ink);}
 
-.pane-text{margin:0;font-size:15px;line-height:1.7;color:var(--muted);}
-.pane-after .pane-text{font-size:17px;color:var(--ink);}
+.level-stats{
+  margin:0;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--muted);
+}
 
 /* ---------- thesis abstract dialog ---------------------------------- */
 
@@ -522,8 +564,8 @@ footer .wrap{
   .modal-body p{font-size:16px;line-height:1.75;}
   .modal-foot{padding:18px 24px 22px;}
   .cards{grid-template-columns:1fr;gap:18px;}
-  .compare{grid-template-columns:1fr;}
-  .pane-before{border-right:0;border-bottom:1px solid var(--line);}
+  .level-panel{padding:24px 22px;min-height:0;}
+  .level-text{font-size:19px;}
 
   .row{flex-direction:column;align-items:flex-start;gap:12px;}
 

@@ -13,9 +13,10 @@ face, and a DNA double helix turning in the hero. Three bands under it, in order
 | --- | --- | --- |
 | **01** | Research Interests | Three projects, each opening its abstract in a dialog |
 | **02** | Writing | Published patient-facing work |
-| **03** | Same paragraph, twice | One clinical paragraph and its plain-language rewrite |
+| **03** | Same paragraph, three ways | A slider from regulator to patient, rewriting one paragraph as you drag |
 
-The last one is the demonstration piece — it shows the skill rather than describing it.
+The last one is the demonstration piece — it shows the skill rather than describing it,
+and it is the only interactive part of the page.
 
 Type is Newsreader (display), Public Sans (body) and IBM Plex Mono (labels). Colours are
 CSS custom properties at the top of `styles.css`, with a full dark palette below them;
@@ -159,6 +160,30 @@ it rust, plain `row-tag` leaves it grey.
 The Klarity row is neither: it's a plain `<div class="row row-static">` whose three
 articles are `<a class="pill">` links inside it, because a row can't be a link and
 contain links.
+
+### The reading-level slider
+
+The three versions live in `index.html`, in the hidden `.level-source` block:
+
+```html
+<div class="level-source" hidden>
+  <p data-level="Regulator">Participants may experience transient…</p>
+  <p data-level="Clinician">Injection-site reactions are common…</p>
+  <p data-level="Patient">Your arm may be sore or red…</p>
+</div>
+```
+
+Edit the text and everything else follows — the number of stops, the labels under the
+slider, and the readability figures. Add a fourth `<p data-level="...">` and the slider
+gains a fourth stop on its own; nothing in `script.js` needs touching.
+
+The score is Flesch–Kincaid grade level, computed in the browser from whatever is on
+screen rather than hard-coded, so it can't drift out of step with the words. It falls
+18.5 → 14.2 → 3.7 across the three current versions. Syllable counting is the usual
+vowel-group heuristic — approximate, as the measure is anyway.
+
+Each word fades up a beat after the one before it, which is what makes the change read
+as a rewrite rather than a swap. Under `prefers-reduced-motion` the text simply appears.
 
 ### The thesis abstract
 

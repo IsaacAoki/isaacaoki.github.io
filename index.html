@@ -122,18 +122,31 @@
   <div class="wrap">
     <div class="band-label">
       <p class="num num-a">03</p>
-      <h2>Same paragraph, twice</h2>
-      <p class="note">One from a protocol, one for the person having the injection.</p>
+      <h2>Same paragraph, three ways</h2>
+      <p class="note">Drag the slider. The words change; the facts don&rsquo;t.</p>
     </div>
-    <div class="compare">
-      <div class="pane pane-before">
-        <p class="pane-label">Before</p>
-        <p class="pane-text">Participants may experience transient injection-site reactions of mild to moderate severity, which typically resolve without intervention within 48 hours.</p>
+
+    <!-- The three versions. Edit the text here; the slider, the labels
+         and the readability score all follow from whatever you write.
+         Add a fourth <p data-level="..."> and it gains a fourth stop. -->
+    <div class="levels">
+      <div class="level-source" hidden>
+        <p data-level="Regulator">Participants may experience transient injection-site reactions of mild to moderate severity, which typically resolve without intervention within 48 hours.</p>
+        <p data-level="Clinician">Injection-site reactions are common, typically mild to moderate in severity, and self-limiting within 48 hours. Intervention is not indicated unless symptoms persist or worsen.</p>
+        <p data-level="Patient">Your arm may be sore or red where you had the injection. It usually settles on its own within two days.</p>
       </div>
-      <div class="pane pane-after">
-        <p class="pane-label">After</p>
-        <p class="pane-text">Your arm may be sore or red where you had the injection. It usually settles on its own within two days.</p>
+
+      <div class="level-panel">
+        <p class="level-name" aria-hidden="true"></p>
+        <p class="level-text" aria-live="polite"></p>
       </div>
+
+      <div class="level-control">
+        <input class="level-slider" type="range" min="0" max="2" step="1" value="0" aria-label="Who the paragraph is written for">
+        <div class="level-stops" aria-hidden="true"></div>
+      </div>
+
+      <p class="level-stats" aria-hidden="true"></p>
     </div>
   </div>
   </section>

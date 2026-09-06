@@ -260,3 +260,94 @@
     });
   });
 })();
+
+/* ============================================================
+   The reading-level slider.
+
+   Three versions of one paragraph, and a slider between them.
+   Everything - the number of stops, their labels, the readability
+   figures - comes from the <p data-level="..."> elements in the
+   HTML, so adding a fourth version needs no change here.
+
+   The score is Flesch-Kincaid grade level, computed from whatever
+   text is on screen. Syllable counting is the usual vowel-group
+   heuristic: approximate, which is what the measure is anyway.
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  var root = document.querySelector('.levels');
+  if (!root) return;
+
+  var levels = [].map.call(
+    root.querySelectorAll('.level-source [data-level]'),
+    function (p) { return { label: p.dataset.level, text: p.textContent.trim() }; }
+  );
+  if (levels.length < 2) return;
+
+  var slider = root.querySelector('.level-slider');
+  var stops = root.querySelector('.level-stops');
+  var nameEl = root.querySelector('.level-name');
+  var textEl = root.querySelector('.level-text');
+  var statsEl = root.querySelector('.level-stats');
+
+  slider.max = levels.length - 1;
+
+  stops.textContent = '';
+  levels.forEach(function (l) {
+    var s = document.createElement('span');
+    s.textContent = l.label;
+    stops.appendChild(s);
+  });
+
+  function syllables(word) {
+    word = word.toLowerCase().replace(/[^a-z]/g, '');
+    if (word.length < 3) return 1;
+    word = word.replace(/e$/, '');                  // usually silent
+    var groups = word.match(/[aeiouy]+/g);
+    return groups ? groups.length : 1;
+  }
+
+  function readability(text) {
+    var words = text.match(/[A-Za-z0-9'’-]+/g) || [];
+    var sentences = (text.match(/[.!?]+/g) || []).length || 1;
+    var syl = words.reduce(function (n, w) { return n + syllables(w); }, 0);
+    var grade = 0.39 * (words.length / sentences) + 11.8 * (syl / words.length) - 15.59;
+    return { words: words.length, sentences: sentences, grade: Math.max(0, grade) };
+  }
+
+  function show(i) {
+    var level = levels[i];
+
+    nameEl.textContent = level.label;
+
+    // One span per word, each starting its fade a beat after the last.
+    textEl.textContent = '';
+    level.text.split(/\s+/).forEach(function (word, k) {
+      var span = document.createElement('span');
+      span.className = 'w';
+      span.textContent = word;
+      span.style.animationDelay = (k * 14) + 'ms';
+      textEl.appendChild(span);
+      // the space goes outside the span - an inline-block trims its own
+      // trailing whitespace, which runs every word into the next
+      textEl.appendChild(document.createTextNode(' '));
+    });
+
+    [].forEach.call(stops.children, function (el, k) {
+      el.classList.toggle('on', k === i);
+    });
+
+    var r = readability(level.text);
+    statsEl.textContent =
+      'Flesch–Kincaid grade ' + r.grade.toFixed(1) +
+      '  ·  ' + r.words + ' words' +
+      '  ·  ' + r.sentences + (r.sentences === 1 ? ' sentence' : ' sentences');
+
+    slider.setAttribute('aria-valuetext', level.label);
+  }
+
+  slider.addEventListener('input', function () { show(+slider.value); });
+  show(+slider.value);
+})();
