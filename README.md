@@ -11,7 +11,7 @@ face, and a DNA double helix turning in the hero. Three bands under it, in order
 
 | | Section | What it holds |
 | --- | --- | --- |
-| **01** | Research Interests | The MScR thesis (opens its abstract) and the BSc dissertation |
+| **01** | Research Interests | Three projects, each opening its abstract in a dialog |
 | **02** | Writing | Published patient-facing work |
 | **03** | Same paragraph, twice | One clinical paragraph and its plain-language rewrite |
 

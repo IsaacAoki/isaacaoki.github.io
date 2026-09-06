@@ -204,7 +204,7 @@ h1{
 
 /* research cards */
 
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch;}
+.cards{display:grid;grid-template-columns:repeat(3, 1fr);gap:26px;align-items:stretch;}
 
 .card{
   display:flex;
@@ -492,6 +492,12 @@ footer .wrap{
 .contact-line a:hover{color:var(--b);}
 
 /* ---------- narrow -------------------------------------------------- */
+
+/* three cards across need more room than the 190px rail leaves,
+   so this band goes single-column earlier than the page does */
+@media (max-width: 1100px){
+  .band .wrap{grid-template-columns:1fr;gap:30px;}
+}
 
 @media (max-width: 900px){
   :root{--pad:28px;}
