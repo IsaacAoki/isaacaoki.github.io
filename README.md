@@ -1,6 +1,6 @@
 # isaacaoki.github.io
 
-Personal site for Isaac Aoki, medical writer. Plain HTML/CSS/JS — no build step, no
+Personal site for Isaac Aoki, cancer biologist and writer. Plain HTML/CSS/JS — no build step, no
 dependencies, no framework. GitHub Pages serves it straight from `main`, so a push to
 `main` *is* a deploy. It goes live about a minute later.
 
@@ -13,7 +13,7 @@ face, and a DNA double helix turning in the hero. Three bands under it, in order
 | --- | --- | --- |
 | **01** | Research Interests | Three projects, each opening its abstract in a dialog |
 | **02** | Writing | Published patient-facing work |
-| **03** | Same paragraph, three ways | A slider from regulator to patient, rewriting one paragraph as you drag |
+| **03** | One paragraph, three audiences | A slider from regulator to patient, rewriting one paragraph as you drag |
 
 The last one is the demonstration piece — it shows the skill rather than describing it,
 and it is the only interactive part of the page.
@@ -116,9 +116,9 @@ those when your positioning changes, but they never appear on the page. Everythi
 ### The hero
 
 ```html
-<p class="eyebrow">Aspiring Medical Writer · Bristol</p>
-<h1>The last step of the central dogma is translation. So is mine.</h1>
-<p class="lede">Passionate about childhood cancers…</p>
+<p class="eyebrow">Cancer biologist · Writer · Bristol</p>
+<h1>I turn research into writing people can act on.</h1>
+<p class="lede">MScR in cancer biology and epigenetics…</p>
 ```
 
 Keep the `h1` short. It is set at 56px and gets three lines at most before it starts
