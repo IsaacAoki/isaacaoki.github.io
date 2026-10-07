@@ -122,6 +122,35 @@
   <div class="wrap">
     <div class="band-label">
       <p class="num num-a">03</p>
+      <h2>Projects</h2>
+      <p class="note">Built with Claude Code: research, design and code in one loop.</p>
+    </div>
+    <div class="rows">
+      <button class="row row-b row-open" type="button" data-dialog="labbinder">
+        <span class="row-body">
+          <span class="meta">Product &middot; 2026, in progress</span>
+          <span class="row-title">LabBinder</span>
+          <span class="row-desc">A research binder for PhD students that keeps one checkable chain from protocol to experiment to data to figure to thesis.</span>
+        </span>
+        <span class="row-tag tag-b">Read &rarr;</span>
+      </button>
+
+      <button class="row row-b row-open" type="button" data-dialog="site">
+        <span class="row-body">
+          <span class="meta">Website &middot; 2026</span>
+          <span class="row-title">This site</span>
+          <span class="row-desc">Briefed, designed, built and debugged with Claude, from the first questionnaire to the favicon.</span>
+        </span>
+        <span class="row-tag tag-b">Read &rarr;</span>
+      </button>
+    </div>
+  </div>
+  </section>
+
+  <section class="band band-alt">
+  <div class="wrap">
+    <div class="band-label">
+      <p class="num num-b">04</p>
       <h2>One paragraph, three audiences</h2>
       <p class="note">Drag the slider. The words change; the facts don&rsquo;t.</p>
     </div>
@@ -288,6 +317,59 @@
   <footer class="modal-foot">
     Happy to talk about this one in more detail &mdash;
     <a href="mailto:isaacaokilsx@gmail.com?subject=Vacation%20research%20project">isaacaokilsx@gmail.com</a>
+  </footer>
+
+</dialog>
+
+<!-- LabBinder. Opens from the first Projects row. -->
+<dialog class="modal" id="labbinder" aria-labelledby="labbinder-title">
+
+  <header class="modal-head">
+    <div class="modal-head-text">
+      <p class="meta">Product &middot; 2026, in progress</p>
+      <h2 class="modal-title" id="labbinder-title">LabBinder</h2>
+    </div>
+    <button class="modal-close" type="button" aria-label="Close" data-close>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </header>
+
+  <div class="modal-body">
+    <p>Research tools each hold one part of the work and lose the joins. The protocol lives in one place, the day you ran it in another, the data somewhere else, and the figure in a folder you will not remember in eighteen months. LabBinder is the connective layer: every object carries a stable ID, so the protocol you followed, and which version, links to the day you ran it, the decision you made and what you predicted, the exact data bytes, the code that drew the figure, and the figure in your thesis draft. It records; it does not compute.</p>
+    <p>It runs entirely in the browser. A lab journal with signed entries, so a later edit is evident rather than silent. A writing surface with equations, figures and export to Word and LaTeX. A Python workbench where each run is frozen with its data beside the figure it produced. A bibliography resolved live from CrossRef, OpenAlex and Europe PMC and formatted by a real citation engine.</p>
+    <p>I built it with Claude Code over four months, from a blank folder. I own the product: the users, the problem, every design decision and every reversal. Claude writes the code, and I review it on screen and send it back when it is wrong. The project runs like a small team. A written handover carries context between sessions, a Trello board tracks each change, and a market analysis I researched with Claude sets the direction. As of this writing the repository holds more than six hundred commits and two thousand automated tests, with end-to-end tests in two browser engines.</p>
+    <p>The code is private while it is pre-release. Happy to demo it.</p>
+  </div>
+
+  <footer class="modal-foot">
+    Happy to walk through it &mdash;
+    <a href="mailto:isaacaokilsx@gmail.com?subject=LabBinder">isaacaokilsx@gmail.com</a>
+  </footer>
+
+</dialog>
+
+<!-- This website. Opens from the second Projects row. -->
+<dialog class="modal" id="site" aria-labelledby="site-title">
+
+  <header class="modal-head">
+    <div class="modal-head-text">
+      <p class="meta">Website &middot; 2026</p>
+      <h2 class="modal-title" id="site-title">This site</h2>
+    </div>
+    <button class="modal-close" type="button" aria-label="Close" data-close>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
+    </button>
+  </header>
+
+  <div class="modal-body">
+    <p>The page you are reading was made with Claude end to end. I wrote the brief, answered Claude Design&rsquo;s questionnaire, and picked one direction from the set it produced. Claude Code then implemented that artboard as plain HTML, CSS and JavaScript, with no framework and no build step, and deployed it through GitHub Pages.</p>
+    <p>The interesting parts were the ones that needed judgement rather than typing. The helix in the hero draws a real sequence, A opposite T and G opposite C, with depth so it reads as a solid turning rather than lines sliding. The favicon took three attempts before it appeared in Safari, because WebKit will not decode PNG-compressed icon entries and Safari caches a missing icon against its URL. The reading-level slider below computes its Flesch&ndash;Kincaid grade live, so the number can never disagree with the words.</p>
+    <p>Everything is in the open: <a href="https://github.com/IsaacAoki/isaacaoki.github.io" target="_blank" rel="noopener">github.com/IsaacAoki/isaacaoki.github.io</a>. The README explains how each part works, including the parts that went wrong.</p>
+  </div>
+
+  <footer class="modal-foot">
+    Questions about the process &mdash;
+    <a href="mailto:isaacaokilsx@gmail.com?subject=Your%20website">isaacaokilsx@gmail.com</a>
   </footer>
 
 </dialog>

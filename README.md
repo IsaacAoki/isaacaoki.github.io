@@ -13,7 +13,8 @@ face, and a DNA double helix turning in the hero. Three bands under it, in order
 | --- | --- | --- |
 | **01** | Research Interests | Three projects, each opening its abstract in a dialog |
 | **02** | Writing | Published patient-facing work |
-| **03** | One paragraph, three audiences | A slider from regulator to patient, rewriting one paragraph as you drag |
+| **03** | Projects | LabBinder and this site, each with a write-up in a dialog |
+| **04** | One paragraph, three audiences | A slider from regulator to patient, rewriting one paragraph as you drag |
 
 The last one is the demonstration piece — it shows the skill rather than describing it,
 and it is the only interactive part of the page.
@@ -95,7 +96,7 @@ when the tab is hidden. Under `prefers-reduced-motion` it draws one frame and ne
 
 | File | What's in it |
 | --- | --- |
-| `index.html` | Every word on the page, plus the abstract dialog at the bottom |
+| `index.html` | Every word on the page, plus the dialogs at the bottom |
 | `styles.css` | Tokens at the top (`:root`), then hero, bands, dialog, footer, narrow screens |
 | `script.js` | The helix renderer, then the dialog open/close |
 | `resume.pdf` | The CV both "Download CV" buttons point at |
