@@ -7,7 +7,7 @@ dependencies, no framework. GitHub Pages serves it straight from `main`, so a pu
 ## The design
 
 Built on the **4A** artboard from the Claude Design canvas: warm paper, a serif display
-face, and a DNA double helix turning in the hero. Three bands under it, in order:
+face, and a DNA double helix turning in the hero. Four bands under it, in order:
 
 | | Section | What it holds |
 | --- | --- | --- |
@@ -161,6 +161,29 @@ it rust, plain `row-tag` leaves it grey.
 The Klarity row is neither: it's a plain `<div class="row row-static">` whose three
 articles are `<a class="pill">` links inside it, because a row can't be a link and
 contain links.
+
+### A project row
+
+Section 03 uses the same rows as Writing. Each project is a `<button class="row row-b row-open">`
+with `data-dialog` pointing at a `<dialog>` at the bottom of the file:
+
+```html
+<button class="row row-b row-open" type="button" data-dialog="labbinder">
+  <span class="row-body">
+    <span class="meta">Product &middot; 2026, in progress</span>
+    <span class="row-title">LabBinder</span>
+    <span class="row-desc">A research binder for PhD students that keeps one checkable chain…</span>
+  </span>
+  <span class="row-tag tag-b">Read &rarr;</span>
+</button>
+```
+
+The write-up lives in `<dialog id="labbinder">` and `<dialog id="site">`, one `<p>` per
+paragraph. The LabBinder dialog quotes commit and test counts from its repository; update
+them when they drift far enough to matter. The site dialog links to this repository.
+
+To add a third project, copy a row and a dialog, give both the same new id, and the script
+wires them up.
 
 ### The reading-level slider
 
